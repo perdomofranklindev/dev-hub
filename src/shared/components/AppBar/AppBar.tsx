@@ -1,11 +1,9 @@
 import * as React from "react";
-import { styled, alpha } from "@mui/material/styles";
 import AppBarMui from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -17,33 +15,21 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useSideBar } from "../SideBar/SideBarContext";
 import { Search, SearchIconWrapper, StyledInputBase } from "./AppBarComponents";
+import { useAppBar } from "./app-bar-hooks";
 
 export default function AppBar(): JSX.Element {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
+  const {
+    anchorEl,
+    mobileMoreAnchorEl,
+    isMenuOpen,
+    isMobileMenuOpen,
+    handleProfileMenuOpen,
+    handleMobileMenuClose,
+    handleMenuClose,
+    handleMobileMenuOpen,
+  } = useAppBar();
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const { setOpen } = useSideBar();
-
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+  const { open, setOpen } = useSideBar();
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -130,7 +116,7 @@ export default function AppBar(): JSX.Element {
             aria-label="open drawer"
             sx={{ mr: 2 }}
             onClick={() => {
-              setOpen(true);
+              setOpen(!open);
             }}
           >
             <MenuIcon />

@@ -9,7 +9,7 @@ const Container = styled(Box, {
   shouldForwardProp: (props) => props !== "isSideBarOpen",
 })<BoxProps & { isSideBarOpen: boolean }>(({ isSideBarOpen }) => ({
   display: "grid",
-  gridTemplateColumns: `${isSideBarOpen ? "250px" : "0px"} 1fr`,
+  gridTemplateColumns: `${isSideBarOpen ? "280px" : "0px"} 1fr`,
   gridTemplateRows: "auto 1fr auto",
   gridTemplateAreas: `"sidebar header" "sidebar main" "sidebar footer"`,
   height: "100vh",

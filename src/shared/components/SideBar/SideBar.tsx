@@ -2,27 +2,30 @@ import * as React from "react";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { styled, useTheme } from "@mui/material";
+import { styled, Typography } from "@mui/material";
 import { useSideBar } from "./SideBarContext";
 
-const drawerWidth = 250;
+const drawerWidth = 280;
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
+  textAlign: "left",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
+  width: drawerWidth,
+  flexShrink: 0,
+  "& .MuiDrawer-paper": {
+    width: drawerWidth,
+    boxSizing: "border-box",
+  },
 }));
 
 /**
@@ -30,39 +33,18 @@ const DrawerHeader = styled("div")(({ theme }) => ({
  * @returns {JSX.Element} - Side bar component.
  */
 export const SideBar = (): JSX.Element => {
-  const theme = useTheme();
-  const { open, setOpen } = useSideBar();
-
-  /**
-   * @description - Handle drawer close.
-   * @returns {void} - Nothing to return.
-   */
-  const handleDrawerClose = (): void => {
-    setOpen(false);
-  };
+  const { open } = useSideBar();
 
   return (
     <Drawer
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: drawerWidth,
-          boxSizing: "border-box",
-        },
-      }}
       variant="persistent"
       anchor="left"
       open={open}
     >
       <DrawerHeader>
-        <IconButton onClick={handleDrawerClose}>
-          {theme.direction === "ltr" ? (
-            <ChevronLeftIcon />
-          ) : (
-            <ChevronRightIcon />
-          )}
-        </IconButton>
+        <Typography variant="h5" fontWeight="bold">
+          Dev Hub
+        </Typography>
       </DrawerHeader>
       <Divider />
       <List>
