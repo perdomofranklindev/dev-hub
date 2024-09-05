@@ -3,6 +3,8 @@ import { Roles } from "./roles";
 
 // Check the middleware.ts file for route validation.
 
+// Modify the permissions path of the roles according to your logic application.
+
 export const permissions = {
   [Roles.Admin]: [Routes.Default, Routes.RichTextEditors],
   [Roles.User]: [
