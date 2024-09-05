@@ -1,15 +1,18 @@
 "use client";
 import React from "react";
-import { Box, BoxProps, styled, Typography } from "@mui/material";
+import Box, {BoxProps } from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { styled } from "@mui/material";
 import { useSideBar } from "../components/SideBar/SideBarContext";
-import AppBar from "../components/AppBar/AppBar";
 import { SideBar } from "../components/SideBar/SideBar";
+import { DRAWER_WIDTH } from "../components/SideBar/SideBarComponents";
+import AppBar from "../components/AppBar/AppBar";
 
 const Container = styled(Box, {
   shouldForwardProp: (props) => props !== "isSideBarOpen",
 })<BoxProps & { isSideBarOpen: boolean }>(({ isSideBarOpen }) => ({
   display: "grid",
-  gridTemplateColumns: `${isSideBarOpen ? "280px" : "0px"} 1fr`,
+  gridTemplateColumns: `${isSideBarOpen ? `${DRAWER_WIDTH}px` : "0px"} 1fr`,
   gridTemplateRows: "auto 1fr auto",
   gridTemplateAreas: `"sidebar header" "sidebar main" "sidebar footer"`,
   height: "100vh",

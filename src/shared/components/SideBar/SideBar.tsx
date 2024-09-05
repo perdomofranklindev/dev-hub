@@ -6,27 +6,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { styled, Typography } from "@mui/material";
+import WysiwygIcon from "@mui/icons-material/Wysiwyg";
+import { Typography } from "@mui/material";
 import { useSideBar } from "./SideBarContext";
-
-const drawerWidth = 280;
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  textAlign: "left",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  width: drawerWidth,
-  flexShrink: 0,
-  "& .MuiDrawer-paper": {
-    width: drawerWidth,
-    boxSizing: "border-box",
-  },
-}));
+import { DrawerHeader } from "./SideBarComponents";
 
 /**
  * @description - Side bar component.
@@ -36,41 +19,34 @@ export const SideBar = (): JSX.Element => {
   const { open } = useSideBar();
 
   return (
-    <Drawer
-      variant="persistent"
-      anchor="left"
-      open={open}
-    >
+    <Drawer variant="persistent" anchor="left" open={open}>
       <DrawerHeader>
         <Typography variant="h5" fontWeight="bold">
           Dev Hub
         </Typography>
       </DrawerHeader>
       <Divider />
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+      <List dense>
+        <ListItem>
+          <ListItemText
+            primary={<Typography fontWeight="bold">COMPONENTS</Typography>}
+            secondary={
+              <React.Fragment>Useful components collected</React.Fragment>
+            }
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemButton>
+            <ListItemIcon
+              sx={{
+                minWidth: "40px",
+              }}
+            >
+              <WysiwygIcon />
+            </ListItemIcon>
+            <ListItemText primary="Rich Text Editor" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Drawer>
   );
