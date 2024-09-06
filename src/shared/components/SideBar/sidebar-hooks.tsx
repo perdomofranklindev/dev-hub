@@ -1,6 +1,7 @@
 import { useUserRoutesPermissions } from "@dev-hub/shared/auth/permissions-hooks";
 import { NavItemType } from "./sidebar-types";
 import { useEffect, useState } from "react";
+import { updatePermissions } from "./sidebar-utils";
 
 export const useUpdateSidebarPermissions = (
   items: NavItemType[]
@@ -9,22 +10,10 @@ export const useUpdateSidebarPermissions = (
   const [updatedItems, setUpdatedItems] = useState<NavItemType[]>([]);
 
   useEffect(() => {
-    const updatePermissions = (items: NavItemType[]): NavItemType[] => {
-      return items.map((item) => {
-        const hasPermission = item.path
-          ? userRoutesPermissions.includes(item.path)
-          : true;
-        return {
-          ...item,
-          hasPermission,
-          children: item.children
-            ? updatePermissions(item.children)
-            : undefined,
-        };
-      });
-    };
-
-    setUpdatedItems(updatePermissions(items));
+    if (userRoutesPermissions.length > 0) {
+      const updated = updatePermissions(items, userRoutesPermissions);
+      setUpdatedItems(updated);
+    }
   }, [userRoutesPermissions, items]);
 
   return updatedItems;

@@ -10,7 +10,7 @@ import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 import { Typography } from "@mui/material";
 import { useSideBar } from "./SideBarContext";
 import { DrawerHeader } from "./SideBarComponents";
-import { useUpdateSidebarPermissions } from "./sidebar-utils";
+import { useUpdateSidebarPermissions } from "./sidebar-hooks";
 import { SIDEBAR_ITEMS } from "./sidebar-constants";
 
 /**
