@@ -12,7 +12,7 @@ export type NavItemType = {
   id: string;
   title: string;
   subtitle?: string;
-  icon?: string;
+  icon?: JSX.Element;
   path?: Routes | RoutesAsType;
   type?: NavItemOptionType | NavItemOption;
   children?: NavItemType[];

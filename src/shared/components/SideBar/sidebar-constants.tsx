@@ -1,5 +1,6 @@
 import { Routes } from "@dev-hub/shared/routes";
 import { NavItemOption, NavItemType } from "./sidebar-types";
+import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 
 export const SIDEBAR_ITEMS: NavItemType[] = [
   {
@@ -13,6 +14,7 @@ export const SIDEBAR_ITEMS: NavItemType[] = [
         title: "Rich Text Editors",
         path: Routes.RichTextEditors,
         type: NavItemOption.Item,
+        icon: <WysiwygIcon />
       },
     ],
   },

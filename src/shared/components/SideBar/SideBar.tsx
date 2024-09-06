@@ -35,15 +35,16 @@ export const SideBar = (): JSX.Element => {
 
     return (
       <ListItem key={item.id}>
-        <Link href={item.path ?? '#'} style={{width: '100%'}}>
+        <Link href={item.path ?? "#"} style={{ width: "100%" }}>
           <ListItemButton>
-            <ListItemIcon
-              sx={{
-                minWidth: "40px",
-              }}
-            >
-              <WysiwygIcon />
-            </ListItemIcon>
+            {item.icon ? (
+              <ListItemIcon
+                sx={{
+                  minWidth: "40px",
+                }}>
+                {item.icon}
+              </ListItemIcon>
+            ) : null}
             <ListItemText primary={item.title} />
           </ListItemButton>
         </Link>
