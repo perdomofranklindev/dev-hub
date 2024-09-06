@@ -13,7 +13,7 @@ type ThemeProviderProps = {
  */
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   children,
-}): JSX.Element => (
+}: ThemeProviderProps): JSX.Element => (
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
     {children}

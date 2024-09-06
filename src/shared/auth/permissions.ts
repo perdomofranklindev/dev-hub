@@ -5,7 +5,7 @@ import { Roles } from "./roles";
 
 // Modify the permissions path of the roles according to your logic application.
 
-export const permissions = {
+export const routesPermissionsBasedOnRoles = {
   [Roles.Admin]: [Routes.Default, Routes.RichTextEditors],
   [Roles.User]: [
     // Add the routes need it to this role...

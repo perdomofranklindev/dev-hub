@@ -10,7 +10,7 @@ export function middleware(req: NextRequest) {
   // Get the current path and check the user permissions.
 
   //   const requestedRoute = req.nextUrl.pathname as Routes;
-  //   if (!permissions[userRole].includes(requestedRoute)) {
+  //   if (!routesPermissionsBasedOnRoles[userRole].includes(requestedRoute)) {
   //     return NextResponse.redirect(Routes.HOME);
   //   }
 
