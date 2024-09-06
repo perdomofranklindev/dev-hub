@@ -1,4 +1,4 @@
-import { Routes } from "../routes/routes";
+import { Routes } from "../routes";
 import { Roles } from "./roles";
 
 // Check the middleware.ts file for route validation.

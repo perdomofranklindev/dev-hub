@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@dev-hub/shared/theme/ThemeProvider";
 import { SideBarProvider } from "@dev-hub/shared/components/SideBar/SideBarContext";
 import { MainLayout } from "@dev-hub/shared/layouts/MainLayout";
+import { TanstackQueryClientProvider } from "@dev-hub/shared/tanstack-query";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,11 +17,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider>
-          <SideBarProvider>
-            <MainLayout>{children}</MainLayout>
-          </SideBarProvider>
-        </ThemeProvider>
+        <TanstackQueryClientProvider>
+          <ThemeProvider>
+            <SideBarProvider>
+              <MainLayout>{children}</MainLayout>
+            </SideBarProvider>
+          </ThemeProvider>
+        </TanstackQueryClientProvider>
       </body>
     </html>
   );

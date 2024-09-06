@@ -1,4 +1,4 @@
-import { Routes } from "@dev-hub/shared/routes/routes";
+import { Routes } from "@dev-hub/shared/routes";
 import { NavItemOption, NavItemType } from "./sidebar-types";
 
 export const SIDEBAR_ITEMS: NavItemType[] = [

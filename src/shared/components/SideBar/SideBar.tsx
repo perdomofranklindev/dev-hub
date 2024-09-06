@@ -10,6 +10,8 @@ import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 import { Typography } from "@mui/material";
 import { useSideBar } from "./SideBarContext";
 import { DrawerHeader } from "./SideBarComponents";
+import { useUpdateSidebarPermissions } from "./sidebar-utils";
+import { SIDEBAR_ITEMS } from "./sidebar-constants";
 
 /**
  * @description - Side bar component.
@@ -17,6 +19,7 @@ import { DrawerHeader } from "./SideBarComponents";
  */
 export const SideBar = (): JSX.Element => {
   const { open } = useSideBar();
+  const itemsWithPermissions = useUpdateSidebarPermissions(SIDEBAR_ITEMS);
 
   return (
     <Drawer variant="persistent" anchor="left" open={open}>

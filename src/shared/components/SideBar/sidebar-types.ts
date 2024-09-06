@@ -1,4 +1,4 @@
-import { Routes, RoutesAsType } from "@dev-hub/shared/routes/routes";
+import { Routes, RoutesAsType } from "@dev-hub/shared/routes";
 
 export enum NavItemOption {
   Group = "Group",
