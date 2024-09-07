@@ -1,6 +1,6 @@
 import React from "react";
+import { RichTextEditorsView } from "@dev-hub/modules/components/rich-text-editor/RichTextEditorsView";
 
 export default function Page(): JSX.Element {
-  console.log('Rending the rich text editors page...'); 
-  return <div>Rich Text Editors...</div>;
+  return <RichTextEditorsView />;
 }
