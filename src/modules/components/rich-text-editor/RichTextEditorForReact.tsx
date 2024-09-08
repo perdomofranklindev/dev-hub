@@ -3,7 +3,15 @@ import React from "react";
 import useRichTextEditor from "rich-text-editor-for-react/hook";
 import DisplayTheOutput from "rich-text-editor-for-react/display-output";
 import RichTextEditor from "rich-text-editor-for-react";
-import { Stack, Typography } from "@mui/material";
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Stack,
+  Typography,
+} from "@mui/material";
+import Link from "next/link";
 
 const EditorTitle = () => (
   <section title="Title">
@@ -60,7 +68,7 @@ const EditorComponent = ({
 const EditorOutput = ({ output }: { output: string }) => (
   <section title="Component Output">
     <section title="Subtitle">
-      <Typography variant="h6">Output</Typography>
+      <Typography variant="h6">Output in HTML</Typography>
     </section>
     <section title="Display">
       <DisplayTheOutput
@@ -79,11 +87,17 @@ export default function RichTextEditorForReact() {
     <main>
       <article>
         <Stack>
-          <section title="Demo Component">
-            <EditorTitle />
-            <EditorComponent fetchOutput={fetchOutput} />
-          </section>
+          <EditorTitle />
+          <EditorComponent fetchOutput={fetchOutput} />
           <EditorOutput output={output} />
+          <section>
+            <Typography>References:</Typography>
+            <List>
+              <ListItem>
+                <ListItemText primary={<Link href="">...</Link>} />
+              </ListItem>
+            </List>
+          </section>
         </Stack>
       </article>
     </main>
