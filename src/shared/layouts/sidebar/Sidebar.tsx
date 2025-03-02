@@ -22,6 +22,7 @@ import {
 } from "@mui/icons-material";
 import { useSidebar } from "./SidebarProvider";
 import { DrawerHeader } from "./SidebarHeader";
+import BrushIcon from '@mui/icons-material/Brush';
 import Link from "next/link";
 
 export const DRAWER_WIDTH = 280;
@@ -31,6 +32,11 @@ const menuItems = [
     text: "Dashboard",
     icon: <DashboardIcon />,
     path: "/",
+  },
+  {
+    text: "Cards",
+    icon: <BrushIcon />,
+    path: "/components/cards",
   },
   {
     text: "Settings",
@@ -68,7 +74,7 @@ export const Sidebar = () => {
         </Typography>
       </DrawerHeader>
       <Divider />
-      <List>
+      <List dense={false} disablePadding>
         {menuItems.map((item) => (
           <div key={item.text}>
             <ListItem disablePadding>
