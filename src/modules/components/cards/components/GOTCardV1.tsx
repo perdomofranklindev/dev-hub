@@ -3,7 +3,7 @@
 import React from "react";
 import { Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import { GameOfThroneCharacter } from "./game-of-thrones-types";
+import { GameOfThroneCharacter } from "../../../../shared/backend/got-characters/game-of-thrones-types";
 import Image from "next/image";
 import {
   GOTCardBackgroundWrapper,
@@ -13,14 +13,13 @@ import {
 } from "./GOTCardComponents";
 import GOTCardTitlesSection from "./GOTCardTitlesSection";
 
-const GOTCardV2: React.FC<{ character: GameOfThroneCharacter }> = ({
+const GOTCardV1: React.FC<{ character: GameOfThroneCharacter }> = ({
   character,
 }) => {
   return (
     <motion.div
       whileHover={{ y: -10 }}
-      transition={{ type: "spring", stiffness: 300 }}
-    >
+      transition={{ type: "spring", stiffness: 300 }}>
       <GOTCardContainer>
         <GOTCardBackgroundWrapper>
           <Image
@@ -37,8 +36,6 @@ const GOTCardV2: React.FC<{ character: GameOfThroneCharacter }> = ({
           <Image
             fill
             priority
-            placeholder="blur"
-            blurDataURL="https://t3.ftcdn.net/jpg/03/45/05/92/360_F_345059232_CPieT8RIWOUk4JqBkkWkIETYAkmz2b75.jpg"
             src={character.houseShieldUrl}
             alt={`${character.house} Shield`}
             style={{ objectFit: "cover" }}
@@ -49,9 +46,7 @@ const GOTCardV2: React.FC<{ character: GameOfThroneCharacter }> = ({
           <Typography variant="h5" component="div" sx={{ fontWeight: "bold" }}>
             {character.name}
           </Typography>
-          <Typography variant="subtitle1" >
-            House {character.house}
-          </Typography>
+          <Typography variant="subtitle1">House {character.house}</Typography>
           <GOTCardTitlesSection titles={character.titles} />
         </GOTCardContent>
       </GOTCardContainer>
@@ -59,4 +54,4 @@ const GOTCardV2: React.FC<{ character: GameOfThroneCharacter }> = ({
   );
 };
 
-export default GOTCardV2;
+export default GOTCardV1;

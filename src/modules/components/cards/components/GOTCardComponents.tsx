@@ -1,4 +1,9 @@
-import { Box, Card, CardContent, Chip, styled } from "@mui/material";
+
+import Box from '@mui/material/Box' 
+import Card from '@mui/material/Card' 
+import CardContent from '@mui/material/CardContent' 
+import Chip from '@mui/material/Chip';
+import styled from '@mui/material/styles/styled';
 
 export const GOTCardContainer = styled(Card)(({ theme }) => ({
   width: "100%",
@@ -14,7 +19,7 @@ export const GOTCardBackgroundWrapper = styled(Box)(() => ({
   height: 200,
 }));
 
-export const GOTCardHouseShieldOverlayWrapper = styled(Box)(({ theme }) => ({
+export const GOTCardHouseShieldOverlayWrapper = styled(Box)(() => ({
   position: "absolute",
   top: "10px",
   right: "10px",

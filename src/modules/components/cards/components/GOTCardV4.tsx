@@ -11,7 +11,7 @@ import {
   Avatar,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { GameOfThroneCharacter } from "./game-of-thrones-types";
+import { GameOfThroneCharacter } from "../../../../shared/backend/got-characters/game-of-thrones-types";
 
 const GOTCardV4: React.FC<{ character: GameOfThroneCharacter }> = ({
   character,
