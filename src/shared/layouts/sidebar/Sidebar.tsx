@@ -13,6 +13,7 @@ import {
   Typography,
   useMediaQuery,
   Theme,
+  Box,
 } from "@mui/material";
 import {
   Dashboard as DashboardIcon,
@@ -22,7 +23,6 @@ import {
 } from "@mui/icons-material";
 import { useSidebar } from "./SidebarProvider";
 import { DrawerHeader } from "./SidebarHeader";
-import BrushIcon from '@mui/icons-material/Brush';
 import Link from "next/link";
 
 export const DRAWER_WIDTH = 280;
@@ -30,17 +30,12 @@ export const DRAWER_WIDTH = 280;
 const menuItems = [
   {
     text: "Dashboard",
-    icon: <DashboardIcon />,
+    icon: <DashboardIcon fontSize="small" />,
     path: "/",
   },
   {
-    text: "Cards",
-    icon: <BrushIcon />,
-    path: "/components/cards",
-  },
-  {
     text: "Settings",
-    icon: <SettingsIcon />,
+    icon: <SettingsIcon fontSize="small" />,
     subItems: [
       { text: "Profile", path: "/settings/profile" },
       { text: "Account", path: "/settings/account" },
@@ -74,44 +69,50 @@ export const Sidebar = () => {
         </Typography>
       </DrawerHeader>
       <Divider />
-      <List dense={false} disablePadding>
-        {menuItems.map((item) => (
-          <div key={item.text}>
-            <ListItem disablePadding>
-              <ListItemButton
-                {...(!item.subItems?.length && { href: item.path })}
-                LinkComponent={Link}
-                onClick={() => item.subItems && toggleSubMenu(item.text)}
-              >
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
-                {item.subItems &&
-                  (openSubMenu === item.text ? <ExpandLess /> : <ExpandMore />)}
-              </ListItemButton>
-            </ListItem>
-            {item.subItems && (
-              <Collapse
-                in={openSubMenu === item.text}
-                timeout="auto"
-                unmountOnExit
-              >
-                <List component="div" disablePadding>
-                  {item.subItems.map((subItem) => (
-                    <ListItemButton
-                      href={subItem.path}
-                      LinkComponent={Link}
-                      key={subItem.text}
-                      sx={{ pl: 4 }}
-                    >
-                      <ListItemText primary={subItem.text} />
-                    </ListItemButton>
-                  ))}
-                </List>
-              </Collapse>
-            )}
-          </div>
-        ))}
-      </List>
+      <Box>
+        <List dense={false} disablePadding>
+          {menuItems.map((item) => (
+            <div key={item.text}>
+              <ListItem disablePadding>
+                <ListItemButton
+                  {...(!item.subItems?.length && { href: item.path })}
+                  LinkComponent={Link}
+                  onClick={() => item.subItems && toggleSubMenu(item.text)}
+                >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} />
+                  {item.subItems &&
+                    (openSubMenu === item.text ? (
+                      <ExpandLess />
+                    ) : (
+                      <ExpandMore />
+                    ))}
+                </ListItemButton>
+              </ListItem>
+              {item.subItems && (
+                <Collapse
+                  in={openSubMenu === item.text}
+                  timeout="auto"
+                  unmountOnExit
+                >
+                  <List component="div" disablePadding>
+                    {item.subItems.map((subItem) => (
+                      <ListItemButton
+                        href={subItem.path}
+                        LinkComponent={Link}
+                        key={subItem.text}
+                        sx={{ pl: 4 }}
+                      >
+                        <ListItemText primary={subItem.text} />
+                      </ListItemButton>
+                    ))}
+                  </List>
+                </Collapse>
+              )}
+            </div>
+          ))}
+        </List>
+      </Box>
     </Drawer>
   );
 };
