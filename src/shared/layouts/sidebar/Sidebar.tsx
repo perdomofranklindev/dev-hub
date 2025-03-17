@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import {
   List,
-  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
@@ -14,6 +13,8 @@ import {
   Box,
   Drawer,
   SwipeableDrawer,
+  Collapse,
+  ListItem,
 } from "@mui/material";
 import {
   Dashboard as DashboardIcon,
@@ -23,23 +24,29 @@ import {
 } from "@mui/icons-material";
 import { useSidebar } from "./SidebarProvider";
 import { DrawerHeader } from "./SidebarHeader";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 export const DRAWER_WIDTH = 280;
 
 const menuItems = [
   {
-    text: "Dashboard",
-    icon: <DashboardIcon fontSize="small" />,
-    path: "/",
-  },
-  {
-    text: "Settings",
-    icon: <SettingsIcon fontSize="small" />,
-    subItems: [
-      { text: "Profile", path: "/settings/profile" },
-      { text: "Account", path: "/settings/account" },
+    section: "Main Menu",
+    subtitle: "Main Menu",
+    items: [
+      {
+        text: "Dashboard",
+        icon: <DashboardIcon fontSize="small" />,
+        path: "/",
+      },
+      {
+        text: "Settings",
+        icon: <SettingsIcon fontSize="small" />,
+        subItems: [
+          { text: "Profile", path: "/settings/profile" },
+          { text: "Account", path: "/settings/account" },
+        ],
+      },
     ],
   },
 ];
@@ -47,34 +54,14 @@ const menuItems = [
 const MotionDrawer = motion.create(Drawer);
 const MotionSwipeableDrawer = motion.create(SwipeableDrawer);
 
-const subMenuVariants = {
-  open: {
-    height: "auto",
-    opacity: 1,
-    transition: {
-      duration: 0.3,
-      ease: "easeInOut",
-    },
-  },
-  closed: {
-    height: 0,
-    opacity: 0,
-    transition: {
-      duration: 0.3,
-      ease: "easeInOut",
-    },
-  },
-};
-
 export const Sidebar = () => {
   const { open, setOpen } = useSidebar();
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
   const isMobile = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down("sm")
+    theme.breakpoints.down("md")
   );
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  // Click outside handler
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -93,9 +80,9 @@ export const Sidebar = () => {
     };
   }, [isMobile, open, setOpen]);
 
-  // Responsive behavior
   useEffect(() => {
     if (!isMobile) setOpen(true);
+    if (isMobile) setOpen(false);
   }, [isMobile, setOpen]);
 
   const toggleSubMenu = (text: string) => {
@@ -111,61 +98,88 @@ export const Sidebar = () => {
       </DrawerHeader>
       <Divider />
       <Box sx={{ overflowY: "auto", height: "calc(100vh - 64px)" }}>
-        <List dense={false} disablePadding>
-          {menuItems.map((item) => (
-            <div key={item.text}>
-              <ListItem disablePadding>
-                <ListItemButton
-                  component={item.path ? Link : "div"}
-                  {...(item.path && { href: item.path })}
-                  onClick={() => item.subItems && toggleSubMenu(item.text)}
-                  sx={{ transition: "background-color 0.2s" }}
-                >
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.text} />
-                  {item.subItems && (
-                    <motion.div
-                      animate={{ rotate: openSubMenu === item.text ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
+        {menuItems.map((section) => (
+          <List key={section.section} component="nav">
+            <ListItem sx={{ mt: 1.5, mx: 2, width: "auto" }}>
+              <Typography variant="subtitle1" fontWeight="bold">
+                {section.section}
+              </Typography>
+            </ListItem>
+
+            {section.subtitle && (
+              <ListItem sx={{ mx: 2, width: "auto" }}>
+                <Typography variant="caption" color="text.secondary">
+                  {section.subtitle}
+                </Typography>
+              </ListItem>
+            )}
+
+            {section.items.map((item) => (
+              <div key={item.text}>
+                {item.subItems ? (
+                  <>
+                    <ListItemButton
+                      sx={{
+                        mx: 2,
+                        "& .MuiListItemIcon-root": {
+                          width: "auto",
+                          minWidth: "auto",
+                          paddingRight: 2,
+                        },
+                      }}
+                      onClick={() => toggleSubMenu(item.text)}
                     >
+                      <ListItemIcon>{item.icon}</ListItemIcon>
+                      <ListItemText primary={item.text} />
                       {openSubMenu === item.text ? (
                         <ExpandLess />
                       ) : (
                         <ExpandMore />
                       )}
-                    </motion.div>
-                  )}
-                </ListItemButton>
-              </ListItem>
-
-              <AnimatePresence>
-                {item.subItems && (
-                  <motion.div
-                    key={`submenu-${item.text}`}
-                    initial="closed"
-                    animate={openSubMenu === item.text ? "open" : "closed"}
-                    exit="closed"
-                    variants={subMenuVariants}
-                    style={{ overflow: "hidden" }}
-                  >
-                    <List component="div" disablePadding>
-                      {item.subItems.map((subItem) => (
-                        <ListItemButton
-                          key={subItem.text}
-                          component={Link}
-                          href={subItem.path}
-                          sx={{ pl: 4 }}
-                        >
-                          <ListItemText primary={subItem.text} />
-                        </ListItemButton>
-                      ))}
-                    </List>
-                  </motion.div>
+                    </ListItemButton>
+                    <Collapse
+                      in={openSubMenu === item.text}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <List component="div" disablePadding sx={{ mx: 2 }}>
+                        {item.subItems.map((subItem) => (
+                          <Link
+                            href={subItem.path}
+                            passHref
+                            legacyBehavior
+                            key={subItem.text}
+                          >
+                            <ListItemButton component="a" sx={{ pl: "52px" }}>
+                              <ListItemText primary={subItem.text} />
+                            </ListItemButton>
+                          </Link>
+                        ))}
+                      </List>
+                    </Collapse>
+                  </>
+                ) : (
+                  <Link href={item.path} passHref legacyBehavior>
+                    <ListItemButton
+                      component="a"
+                      sx={{
+                        mx: 2,
+                        "& .MuiListItemIcon-root": {
+                          width: "auto",
+                          minWidth: "auto",
+                          paddingRight: 2,
+                        },
+                      }}
+                    >
+                      <ListItemIcon>{item.icon}</ListItemIcon>
+                      <ListItemText primary={item.text} />
+                    </ListItemButton>
+                  </Link>
                 )}
-              </AnimatePresence>
-            </div>
-          ))}
-        </List>
+              </div>
+            ))}
+          </List>
+        ))}
       </Box>
     </>
   );
