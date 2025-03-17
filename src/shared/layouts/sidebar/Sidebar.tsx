@@ -15,6 +15,7 @@ import {
   SwipeableDrawer,
   Collapse,
   ListItem,
+  Stack,
 } from "@mui/material";
 import {
   Dashboard as DashboardIcon,
@@ -26,6 +27,7 @@ import { useSidebar } from "./SidebarProvider";
 import { DrawerHeader } from "./SidebarHeader";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export const DRAWER_WIDTH = 280;
 
@@ -57,6 +59,7 @@ const MotionSwipeableDrawer = motion.create(SwipeableDrawer);
 export const Sidebar = () => {
   const { open, setOpen } = useSidebar();
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
+  const pathname = usePathname();
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("md")
   );
@@ -89,6 +92,10 @@ export const Sidebar = () => {
     setOpenSubMenu(openSubMenu === text ? null : text);
   };
 
+  const isActive = (path: string) => {
+    return pathname === path;
+  };
+
   const DrawerContent = () => (
     <>
       <DrawerHeader>
@@ -101,25 +108,28 @@ export const Sidebar = () => {
         {menuItems.map((section) => (
           <List key={section.section} component="nav">
             <ListItem sx={{ mt: 1.5, mx: 2, width: "auto" }}>
-              <Typography variant="subtitle1" fontWeight="bold">
-                {section.section}
-              </Typography>
-            </ListItem>
-
-            {section.subtitle && (
-              <ListItem sx={{ mx: 2, width: "auto" }}>
-                <Typography variant="caption" color="text.secondary">
-                  {section.subtitle}
+              <Stack direction="column" display="flex" spacing={1}>
+                <Typography variant="subtitle1" fontWeight="bold">
+                  {section.section}
                 </Typography>
-              </ListItem>
-            )}
+                {section.subtitle && (
+                  <Typography variant="caption" color="text.secondary">
+                    {section.subtitle}
+                  </Typography>
+                )}
+              </Stack>
+            </ListItem>
 
             {section.items.map((item) => (
               <div key={item.text}>
                 {item.subItems ? (
                   <>
                     <ListItemButton
+                      component={Link}
+                      href={item.path || "#"}
                       sx={{
+                        mt: 1,
+                        borderRadius: 1,
                         mx: 2,
                         "& .MuiListItemIcon-root": {
                           width: "auto",
@@ -139,42 +149,51 @@ export const Sidebar = () => {
                     </ListItemButton>
                     <Collapse
                       in={openSubMenu === item.text}
-                      timeout="auto"
+                      timeout={"auto"}
                       unmountOnExit
                     >
                       <List component="div" disablePadding sx={{ mx: 2 }}>
                         {item.subItems.map((subItem) => (
-                          <Link
-                            href={subItem.path}
-                            passHref
-                            legacyBehavior
+                          <ListItemButton
                             key={subItem.text}
+                            component={Link}
+                            href={subItem.path || "#"}
+                            sx={{
+                              my: 1,
+                              borderRadius: 1,
+                              pl: "52px",
+                              backgroundColor: isActive(subItem.path)
+                                ? "action.selected"
+                                : "transparent",
+                            }}
                           >
-                            <ListItemButton component="a" sx={{ pl: "52px" }}>
-                              <ListItemText primary={subItem.text} />
-                            </ListItemButton>
-                          </Link>
+                            <ListItemText primary={subItem.text} />
+                          </ListItemButton>
                         ))}
                       </List>
                     </Collapse>
                   </>
                 ) : (
-                  <Link href={item.path} passHref legacyBehavior>
-                    <ListItemButton
-                      component="a"
-                      sx={{
-                        mx: 2,
-                        "& .MuiListItemIcon-root": {
-                          width: "auto",
-                          minWidth: "auto",
-                          paddingRight: 2,
-                        },
-                      }}
-                    >
-                      <ListItemIcon>{item.icon}</ListItemIcon>
-                      <ListItemText primary={item.text} />
-                    </ListItemButton>
-                  </Link>
+                  <ListItemButton
+                    component={Link}
+                    href={item.path || "#"}
+                    sx={{
+                      my: 1,
+                      mx: 2,
+                      borderRadius: 1,
+                      "& .MuiListItemIcon-root": {
+                        width: "auto",
+                        minWidth: "auto",
+                        paddingRight: 2,
+                      },
+                      backgroundColor: isActive(item.path)
+                        ? "action.selected"
+                        : "transparent",
+                    }}
+                  >
+                    <ListItemIcon>{item.icon}</ListItemIcon>
+                    <ListItemText primary={item.text} />
+                  </ListItemButton>
                 )}
               </div>
             ))}
