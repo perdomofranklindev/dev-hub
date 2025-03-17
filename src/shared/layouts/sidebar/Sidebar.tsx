@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
-  Drawer,
   List,
   ListItem,
   ListItemButton,
@@ -13,7 +12,8 @@ import {
   useMediaQuery,
   Theme,
   Box,
-  styled,
+  Drawer,
+  SwipeableDrawer,
 } from "@mui/material";
 import {
   Dashboard as DashboardIcon,
@@ -23,8 +23,8 @@ import {
 } from "@mui/icons-material";
 import { useSidebar } from "./SidebarProvider";
 import { DrawerHeader } from "./SidebarHeader";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 export const DRAWER_WIDTH = 280;
 
@@ -44,15 +44,8 @@ const menuItems = [
   },
 ];
 
-const MotionDrawerPaper = motion.create(
-  styled("div")(({ theme }) => ({
-    width: DRAWER_WIDTH,
-    height: "100%",
-    backgroundColor: theme.palette.background.paper,
-    overflowX: "hidden",
-    boxShadow: theme.shadows[4],
-  }))
-);
+const MotionDrawer = motion.create(Drawer);
+const MotionSwipeableDrawer = motion.create(SwipeableDrawer);
 
 const subMenuVariants = {
   open: {
@@ -79,29 +72,38 @@ export const Sidebar = () => {
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("sm")
   );
+  const drawerRef = useRef<HTMLDivElement>(null);
+
+  // Click outside handler
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        drawerRef.current &&
+        !drawerRef.current.contains(event.target as Node) &&
+        isMobile &&
+        open
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobile, open, setOpen]);
+
+  // Responsive behavior
+  useEffect(() => {
+    if (!isMobile) setOpen(true);
+  }, [isMobile, setOpen]);
 
   const toggleSubMenu = (text: string) => {
     setOpenSubMenu(openSubMenu === text ? null : text);
   };
 
-  return (
-    <Drawer
-      variant={isMobile ? "temporary" : "persistent"}
-      anchor="left"
-      open={open}
-      onClose={() => setOpen(false)}
-      PaperProps={{
-        component: MotionDrawerPaper,
-        animate: open ? "open" : "closed",
-        initial: false,
-        variants: {
-          open: { x: 0 },
-          closed: { x: -DRAWER_WIDTH },
-        },
-        transition: { duration: 0.4, ease: [0.25, 0.8, 0.25, 1] },
-      }}
-      ModalProps={{ keepMounted: true }}
-    >
+  const DrawerContent = () => (
+    <>
       <DrawerHeader>
         <Typography variant="h5" fontWeight="bold">
           Dev Hub
@@ -115,7 +117,7 @@ export const Sidebar = () => {
               <ListItem disablePadding>
                 <ListItemButton
                   component={item.path ? Link : "div"}
-                  href={item.path || null}
+                  {...(item.path && { href: item.path })}
                   onClick={() => item.subItems && toggleSubMenu(item.text)}
                   sx={{ transition: "background-color 0.2s" }}
                 >
@@ -136,7 +138,7 @@ export const Sidebar = () => {
                 </ListItemButton>
               </ListItem>
 
-              <AnimatePresence initial={false}>
+              <AnimatePresence>
                 {item.subItems && (
                   <motion.div
                     key={`submenu-${item.text}`}
@@ -165,6 +167,42 @@ export const Sidebar = () => {
           ))}
         </List>
       </Box>
-    </Drawer>
+    </>
+  );
+
+  const commonDrawerProps = {
+    ref: drawerRef,
+    open,
+    onClose: () => setOpen(false),
+    animate: { width: open ? DRAWER_WIDTH : 0 },
+    transition: { duration: 0.4, ease: [0.25, 0.8, 0.25, 1] },
+    sx: {
+      "& .MuiDrawer-paper": {
+        boxSizing: "border-box",
+        overflowX: "hidden",
+      },
+    },
+  };
+
+  if (isMobile) {
+    return (
+      <MotionSwipeableDrawer
+        {...commonDrawerProps}
+        anchor="left"
+        variant="temporary"
+        ModalProps={{
+          keepMounted: true,
+        }}
+        onOpen={() => setOpen(true)}
+      >
+        <DrawerContent />
+      </MotionSwipeableDrawer>
+    );
+  }
+
+  return (
+    <MotionDrawer {...commonDrawerProps} anchor="left" variant="persistent">
+      <DrawerContent />
+    </MotionDrawer>
   );
 };
