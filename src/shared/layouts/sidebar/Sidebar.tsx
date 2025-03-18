@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   List,
   ListItemButton,
@@ -26,8 +26,8 @@ import {
 import { useSidebar } from "./SidebarProvider";
 import { DrawerHeader } from "./SidebarHeader";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export const DRAWER_WIDTH = 280;
 
@@ -125,8 +125,6 @@ export const Sidebar = () => {
                 {item.subItems ? (
                   <>
                     <ListItemButton
-                      component={Link}
-                      href={item.path || "#"}
                       sx={{
                         mt: 1,
                         borderRadius: 1,
@@ -155,8 +153,8 @@ export const Sidebar = () => {
                       <List component="div" disablePadding sx={{ mx: 2 }}>
                         {item.subItems.map((subItem) => (
                           <ListItemButton
-                            key={subItem.text}
                             component={Link}
+                            key={subItem.text}
                             href={subItem.path || "#"}
                             sx={{
                               my: 1,
