@@ -79,7 +79,7 @@ export const SidebarItem = ({
           },
         }}
       >
-        <StyledListItemIcon>{item.icon}</StyledListItemIcon>
+        {item?.icon && <StyledListItemIcon>{item.icon}</StyledListItemIcon>}
         <ListItemText primary={item.text} />
         {hasSubItems && (isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
       </ListItemButton>

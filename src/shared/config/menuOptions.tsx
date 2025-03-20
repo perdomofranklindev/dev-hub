@@ -1,5 +1,4 @@
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 export const menuOptions = [
@@ -22,13 +21,11 @@ export const menuOptions = [
             id: "profile",
             text: "Profile",
             path: "/settings/profile",
-            icon: <AccountBoxIcon />,
           },
           {
             id: "account",
             text: "Account",
             path: "/settings/account",
-            icon: <AdminPanelSettingsIcon />,
           },
         ],
       },
