@@ -1,76 +1,58 @@
-// components/dashboard/Sidebar/SidebarItem.tsx
 "use client";
 
+import Collapse from "@mui/material/Collapse";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
+import List from "@mui/material/List";
 import Link from "next/link";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { usePathname } from "next/navigation";
-import {
-  Collapse,
-  ListItem,
-  ListItemText,
-  ListItemButton,
-  ListItemButtonProps,
-  Box,
-} from "@mui/material";
 import { StyledListItemIcon } from "./SidebarStyles";
-import { MenuItem, SubMenuItem } from "./types";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { MenuItem } from "./types";
+import { useSidebar } from "./SidebarContext";
 
-interface SidebarItemProps {
-  item: MenuItem | SubMenuItem;
-  isMobile: boolean;
-  onClose: () => void;
-  hasSubItems?: boolean;
-  isSubItem?: boolean;
-  isOpen?: boolean;
-  onToggle?: () => void;
-}
-
+/**
+ * SidebarItem component renders a single menu item in the sidebar
+ * It handles both regular menu items and expandable items with sub-menus
+ *
+ * @param {MenuItem} item - The menu item data to render
+ * @param {boolean} isOpen - Whether this item's submenu is expanded
+ * @param {Function} onToggle - Function to toggle the submenu open/closed
+ */
 export const SidebarItem = ({
   item,
-  isMobile,
-  onClose,
-  hasSubItems = false,
-  isSubItem = false,
-  isOpen = false,
+  isOpen,
   onToggle,
-}: SidebarItemProps) => {
+}: {
+  item: MenuItem;
+  isOpen: boolean;
+  onToggle: () => void;
+}) => {
+  // Access sidebar context for mobile detection and sidebar control
+  const { isMobile, closeSidebar } = useSidebar();
+  // Get current path to determine active state
   const pathname = usePathname();
+
+  // Check if this item has sub-items that can be expanded
+  const hasSubItems = Boolean(item.subItems?.length);
+
+  // Determine if this item or any of its children is active based on current path
   const isActive =
     item.path === pathname ||
     (hasSubItems &&
-      (item as MenuItem).subItems?.some(
-        (subItem) => subItem.path === pathname
-      ));
+      item.subItems?.some((subItem) => subItem.path === pathname));
 
-  const buttonProps: ListItemButtonProps = {
-    selected: isActive,
-    onClick: isMobile ? onClose : undefined,
-    sx: {
-      "&.Mui-selected": {
-        backgroundColor: !hasSubItems
-          ? (theme) => theme.palette.action.selected
-          : "inherit",
-      },
-      "&.Mui-selected:hover": {
-        backgroundColor: (theme) => theme.palette.action.selected,
-      },
-    },
+  /**
+   * Handle click on menu item
+   * - On mobile, close the sidebar after navigation
+   * - For items with sub-menus, toggle expansion
+   */
+  const handleClick = () => {
+    if (isMobile) closeSidebar();
+    if (hasSubItems) onToggle();
   };
-
-  if (hasSubItems) {
-    buttonProps.onClick = (e) => {
-      e.preventDefault();
-      onToggle?.();
-    };
-  }
-
-  const linkProps = item.path
-    ? {
-        component: Link as React.ElementType,
-        href: item.path,
-        passHref: true,
-      }
-    : {};
 
   return (
     <ListItem
@@ -78,19 +60,28 @@ export const SidebarItem = ({
       sx={{
         flexDirection: "column",
         alignItems: "flex-start",
+        width: "100%",
       }}
     >
       <ListItemButton
-        {...linkProps}
-        {...buttonProps}
+        component={item.path ? Link : "div"}
+        {...(item.path && { href: item.path })}
+        onClick={handleClick}
+        selected={isActive}
         sx={{
           width: "100%",
-          ...buttonProps.sx,
+          "&.Mui-selected": {
+            backgroundColor: (theme) =>
+              !hasSubItems ? theme.palette.action.selected : "inherit",
+          },
+          "&.Mui-selected:hover": {
+            backgroundColor: (theme) => theme.palette.action.selected,
+          },
         }}
       >
         <StyledListItemIcon>{item.icon}</StyledListItemIcon>
         <ListItemText primary={item.text} />
-        {hasSubItems && (isOpen ? <ExpandLess /> : <ExpandMore />)}
+        {hasSubItems && (isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
       </ListItemButton>
 
       {hasSubItems && (
@@ -98,29 +89,27 @@ export const SidebarItem = ({
           in={isOpen}
           timeout="auto"
           unmountOnExit
-          sx={{
-            width: "100%",
-            bgcolor: "background.paper",
-          }}
+          sx={{ width: "100%" }}
         >
-          <Box
+          <List
+            disablePadding
             sx={{
+              p: 0,
               display: "flex",
               flexDirection: "column",
               gap: 0.5,
-              pb: 1,
+              // pb: 1,
             }}
           >
-            {(item as MenuItem).subItems?.map((subItem) => (
+            {item.subItems?.map((subItem) => (
               <SidebarItem
                 key={subItem.id}
                 item={subItem}
-                isMobile={isMobile}
-                onClose={onClose}
-                isSubItem
+                isOpen={false}
+                onToggle={() => {}}
               />
             ))}
-          </Box>
+          </List>
         </Collapse>
       )}
     </ListItem>
