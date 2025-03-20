@@ -8,6 +8,7 @@ import {
   Typography,
   useTheme,
   Box,
+  useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -24,6 +25,8 @@ export default function DashboardHeader({
 }: HeaderProps) {
   const theme = useTheme();
 
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <Box sx={{ gridArea: "header" }}>
       <AppBar
@@ -33,10 +36,11 @@ export default function DashboardHeader({
             easing: "cubic-bezier(0.25, 0.8, 0.25, 1)",
             duration: 400,
           }),
-          ...(isSidebarOpen && {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: `${drawerWidth}px`,
-          }),
+          ...(isSidebarOpen &&
+            isDesktop && {
+              width: `calc(100% - ${drawerWidth}px)`,
+              marginLeft: `${drawerWidth}px`,
+            }),
         }}
       >
         <Toolbar>
