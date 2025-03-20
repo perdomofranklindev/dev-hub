@@ -47,7 +47,9 @@ export const SidebarItem = ({
     onClick: isMobile ? onClose : undefined,
     sx: {
       "&.Mui-selected": {
-        backgroundColor: !hasSubItems ? (theme) => theme.palette.action.selected : 'inherit',
+        backgroundColor: !hasSubItems
+          ? (theme) => theme.palette.action.selected
+          : "inherit",
       },
       "&.Mui-selected:hover": {
         backgroundColor: (theme) => theme.palette.action.selected,
