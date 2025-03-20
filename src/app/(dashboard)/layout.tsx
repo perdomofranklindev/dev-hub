@@ -1,13 +1,11 @@
-import React from "react";
-import DevHubLayout from "@dev-hub/shared/layouts/DevHubLayout";
-import { SidebarProvider } from "@dev-hub/shared/layouts/sidebar/SidebarProvider";
+import DashboardLayout from "@dev-hub/shared/layouts/DashboardLayout";
 
-export default function DashboardLayout({
+export default function Layout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <SidebarProvider>
-      <DevHubLayout>{children}</DevHubLayout>
-    </SidebarProvider>
+    <DashboardLayout>{children}</DashboardLayout>
   );
 }

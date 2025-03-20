@@ -10,7 +10,7 @@ export function DevHubThemeProvider({
   children: React.ReactNode;
 }) {
   return (
-    <ThemeProvider theme={devHubTheme} defaultMode="dark">
+    <ThemeProvider theme={devHubTheme} defaultMode="light">
       <CssBaseline enableColorScheme />
       {children}
     </ThemeProvider>
