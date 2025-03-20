@@ -23,7 +23,7 @@ export const SidebarSection = ({ section }: { section: MenuSection }) => {
 
   return (
     <div>
-      <Box sx={{ px: 2, py: 1 }}>
+      <Box component="div" sx={{ px: 2, py: 1 }}>
         <Typography variant="subtitle2" fontWeight="bold">
           {section.title}
         </Typography>
@@ -31,7 +31,7 @@ export const SidebarSection = ({ section }: { section: MenuSection }) => {
           {section.subtitle}
         </Typography>
       </Box>
-      <List sx={{ "--ListItemIcon-marginRight": "12px" }}>
+      <List sx={{ "--ListItemIcon-marginRight": "12px", padding: 0 }} component="ul">
         {section.items.map((item) => (
           <SidebarItem
             key={item.id}
