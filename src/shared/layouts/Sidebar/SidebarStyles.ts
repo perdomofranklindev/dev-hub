@@ -1,5 +1,6 @@
-import { styled } from "@mui/material/styles";
-import { ListItemButton, ListItemIcon } from "@mui/material";
+import styled from "@mui/material/styles/styled";
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
 
 export const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   "&.Mui-selected": {
