@@ -1,6 +1,13 @@
 "use client";
 
-import { Drawer, Box, Toolbar, Divider, useTheme } from "@mui/material";
+import {
+  Drawer,
+  Box,
+  Toolbar,
+  Divider,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { SidebarProvider } from "./SidebarContext";
 import { menuOptions } from "@dev-hub/shared/config/menuOptions";
 import { SidebarSection } from "./SidebarSection";
@@ -27,6 +34,7 @@ const Sidebar = ({
   drawerWidth: number;
 }) => {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <SidebarProvider
@@ -44,7 +52,7 @@ const Sidebar = ({
         }}
       >
         <Drawer
-          variant="persistent" // Drawer remains visible when open
+          variant={isMobile ? "temporary" : "persistent"} // Drawer remains visible when open
           open={isOpen}
           onClose={onClose}
           ModalProps={{ keepMounted: true }} // Improves performance by keeping the DOM elements mounted
