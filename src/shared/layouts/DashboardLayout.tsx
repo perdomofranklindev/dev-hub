@@ -3,9 +3,9 @@
 
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { useState } from "react";
-import DashboardSidebar from "./DashboardSidebar";
 import DashboardHeader from "./DashboardHeader";
 import DashboardFooter from "./DashboardFooter";
+import Sidebar from "./Sidebar/SidebarV2";
 
 export default function DashboardLayout({
   children,
@@ -40,11 +40,10 @@ export default function DashboardLayout({
       }}
     >
       {/* Sidebar */}
-      <DashboardSidebar
+      <Sidebar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
         drawerWidth={drawerWidth}
-        isMobile={isMobile}
       />
 
       {/* Header */}
