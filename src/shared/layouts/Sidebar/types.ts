@@ -11,6 +11,7 @@ export interface SubMenuItem extends Omit<MenuItem, "subItems"> {
 }
 
 export interface MenuSection {
+  id: string;
   title?: string;
   subtitle?: string;
   items: MenuItem[];
