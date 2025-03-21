@@ -1,11 +1,10 @@
 "use client";
 
-import Typography from "@mui/material/Typography"; 
+import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Typography";
 import List from "@mui/material/Typography";
 import { MenuSection } from "./types";
 import { SidebarItem } from "./SidebarItem";
-import { useSidebar } from "./SidebarContext";
 
 /**
  * SidebarSection Component
@@ -18,9 +17,6 @@ import { useSidebar } from "./SidebarContext";
  * @returns {JSX.Element} Rendered sidebar section
  */
 export const SidebarSection = ({ section }: { section: MenuSection }) => {
-  // Access the sidebar context to manage submenu open/close states
-  const { openSubmenus, toggleSubmenu } = useSidebar();
-
   return (
     <div>
       <Box component="div" sx={{ px: 2, py: 1 }}>
@@ -31,14 +27,12 @@ export const SidebarSection = ({ section }: { section: MenuSection }) => {
           {section.subtitle}
         </Typography>
       </Box>
-      <List sx={{ "--ListItemIcon-marginRight": "12px", padding: 0 }} component="ul">
+      <List
+        sx={{ "--ListItemIcon-marginRight": "12px", padding: 0 }}
+        component="ul"
+      >
         {section.items.map((item) => (
-          <SidebarItem
-            key={item.id}
-            item={item}
-            isOpen={openSubmenus.has(item.id)}
-            onToggle={() => toggleSubmenu(item.id)}
-          />
+          <SidebarItem key={item.id} item={item} />
         ))}
       </List>
     </div>
