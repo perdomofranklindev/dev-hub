@@ -1,11 +1,11 @@
 // app/dashboard/layout.tsx
 "use client";
 
-import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { useState } from "react";
+import { Box, useTheme } from "@mui/material";
 import DashboardHeader from "./DashboardHeader";
 import DashboardFooter from "./DashboardFooter";
 import Sidebar from "./Sidebar/SidebarV2";
+import { useSidebar } from "./Sidebar/SidebarContext";
 
 export default function DashboardLayout({
   children,
@@ -13,21 +13,15 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
-  
-  const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
-  const drawerWidth = 280;
-
-  const handleToggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const { isDesktop, handleToggleSidebar, drawerWidth, isSidebarOpen } =
+    useSidebar();
 
   return (
     <Box
       sx={{
         display: "grid",
-        gridTemplateColumns: isSidebarOpen && isDesktop ? `${drawerWidth}px 1fr` : "0 1fr",
+        gridTemplateColumns:
+          isSidebarOpen && isDesktop ? `${drawerWidth}px 1fr` : "0 1fr",
         gridTemplateRows: "auto 1fr auto",
         gridTemplateAreas: `
         "sidebar header"
@@ -42,11 +36,7 @@ export default function DashboardLayout({
       }}
     >
       {/* Sidebar */}
-      <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        drawerWidth={drawerWidth}
-      />
+      <Sidebar isOpen={isSidebarOpen} drawerWidth={drawerWidth} />
 
       {/* Header */}
       <DashboardHeader
