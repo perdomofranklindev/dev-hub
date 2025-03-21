@@ -13,9 +13,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+  
   const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
-  const drawerWidth = 240;
+  const drawerWidth = 280;
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -25,7 +27,7 @@ export default function DashboardLayout({
     <Box
       sx={{
         display: "grid",
-        gridTemplateColumns: isSidebarOpen ? `${drawerWidth}px 1fr` : "0 1fr",
+        gridTemplateColumns: isSidebarOpen && isDesktop ? `${drawerWidth}px 1fr` : "0 1fr",
         gridTemplateRows: "auto 1fr auto",
         gridTemplateAreas: `
         "sidebar header"
