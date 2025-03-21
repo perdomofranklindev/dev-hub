@@ -1,8 +1,8 @@
-# Sidebar Navigation Auto-Collapse Algorithm
+# Submenu Auto-Collapse Algorithm
 
 ## Overview
 
-The sidebar navigation in our application features an intelligent auto-collapse system that ensures only the relevant menu sections are expanded based on the current page. This document explains how this algorithm works in simple terms.
+Our application features an intelligent submenu auto-collapse system that ensures only the relevant menu sections are expanded based on the current page. This document explains how this algorithm works.
 
 ## How It Works
 
@@ -102,7 +102,3 @@ If a user navigates to "Stock Levels":
 - It expands only these menus
 - "Categories" and "Users" sections remain collapsed
 - This creates a clear visual path: Products → Inventory → Stock Levels
-
-## Implementation Notes
-
-The algorithm runs automatically whenever the page changes, ensuring the sidebar always reflects the current navigation context without requiring manual user interaction.
