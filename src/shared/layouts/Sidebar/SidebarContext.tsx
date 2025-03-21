@@ -1,10 +1,17 @@
 // components/dashboard/Sidebar/SidebarContext.tsx
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { usePathname } from "next/navigation";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { menuOptions } from "@dev-hub/shared/config/menuOptions";
+import { MenuItem } from "./types";
 
 /**
  * Interface defining the shape of the Sidebar context
@@ -76,21 +83,44 @@ export const SidebarProvider = ({
     });
   };
 
+  const findParentIds = (path: string): string[] => {
+    const parentIds: string[] = [];
+
+    const traverse = (items: MenuItem[], parentId?: string): boolean => {
+      return items.some((item) => {
+        // Check if this is the active item
+        if (item.path === path) {
+          return true;
+        }
+
+        // Check if any children match
+        if (item.subItems && item.subItems.length > 0) {
+          const found = traverse(item.subItems, item.id);
+          if (found) {
+            parentIds.push(item.id);
+            return true;
+          }
+        }
+        return false;
+      });
+    };
+
+    menuOptions.forEach((section) => {
+      traverse(section.items);
+    });
+
+    return parentIds.reverse();
+  };
+
   /**
    * Automatically expands submenus based on the current path
    * This ensures that the submenu containing the active page is always expanded
    */
-  const autoExpandSubmenus = (currentPath: string) => {
-    const newOpenSubmenus = new Set<string>();
-    menuOptions.forEach((section) => {
-      section.items.forEach((item) => {
-        if (item.subItems?.some((subItem) => subItem.path === currentPath)) {
-          newOpenSubmenus.add(item.id);
-        }
-      });
-    });
-    setOpenSubmenus(newOpenSubmenus);
-  };
+  const autoExpandSubmenus = useCallback((currentPath: string) => {
+    const parentIds = findParentIds(currentPath);
+    // Replace the current set with only the parent IDs of the active path
+    setOpenSubmenus(new Set(parentIds));
+  }, []);
 
   /**
    * Effect to automatically expand relevant submenus when the path changes
@@ -98,7 +128,7 @@ export const SidebarProvider = ({
    */
   useEffect(() => {
     autoExpandSubmenus(pathname);
-  }, [pathname]);
+  }, [pathname, autoExpandSubmenus]);
 
   // Provide the sidebar context to all children components
   return (
