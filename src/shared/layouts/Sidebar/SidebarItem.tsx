@@ -23,20 +23,21 @@ import { useSidebar } from "./SidebarContext";
  */
 export const SidebarItem = ({
   item,
-  isOpen,
-  onToggle,
+  depth = 0,
 }: {
   item: MenuItem;
-  isOpen: boolean;
-  onToggle: () => void;
+  depth?: number;
 }) => {
   // Access sidebar context for mobile detection and sidebar control
-  const { isMobile, closeSidebar } = useSidebar();
+  const { isMobile, closeSidebar, openSubmenus, toggleSubmenu } = useSidebar();
+
   // Get current path to determine active state
   const pathname = usePathname();
 
   // Check if this item has sub-items that can be expanded
   const hasSubItems = Boolean(item.subItems?.length);
+
+  const isOpen = openSubmenus.has(item.id);
 
   // Determine if this item or any of its children is active based on current path
   const isActive =
@@ -51,7 +52,9 @@ export const SidebarItem = ({
    */
   const handleClick = () => {
     if (isMobile) closeSidebar();
-    if (hasSubItems) onToggle();
+    if (hasSubItems) {
+      toggleSubmenu(item.id);
+    }
   };
 
   return (
@@ -69,6 +72,7 @@ export const SidebarItem = ({
         onClick={handleClick}
         selected={isActive}
         sx={{
+          pl: 2 + depth * 2,
           width: "100%",
           "&.Mui-selected": {
             backgroundColor: (theme) =>
@@ -98,15 +102,13 @@ export const SidebarItem = ({
               display: "flex",
               flexDirection: "column",
               gap: 0.5,
-              // pb: 1,
             }}
           >
             {item.subItems?.map((subItem) => (
               <SidebarItem
                 key={subItem.id}
                 item={subItem}
-                isOpen={false}
-                onToggle={() => {}}
+                depth={depth + 1}
               />
             ))}
           </List>
