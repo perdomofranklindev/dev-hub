@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 import { StyledListItemIcon } from "./SidebarStyles";
 import { MenuItem } from "./types";
 import { useSidebar } from "./SidebarContext";
+import { useSubmenu } from "./SubmenuContext";
 
 /**
  * SidebarItem component renders a single menu item in the sidebar
@@ -29,7 +30,8 @@ export const SidebarItem = ({
   depth?: number;
 }) => {
   // Access sidebar context for mobile detection and sidebar control
-  const { isMobile, closeSidebar, openSubmenus, toggleSubmenu } = useSidebar();
+  const { isMobile, onClose: closeSidebar } = useSidebar();
+  const { openSubmenus, toggleSubmenu } = useSubmenu();
 
   // Get current path to determine active state
   const pathname = usePathname();
@@ -105,11 +107,7 @@ export const SidebarItem = ({
             }}
           >
             {item.subItems?.map((subItem) => (
-              <SidebarItem
-                key={subItem.id}
-                item={subItem}
-                depth={depth + 1}
-              />
+              <SidebarItem key={subItem.id} item={subItem} depth={depth + 1} />
             ))}
           </List>
         </Collapse>

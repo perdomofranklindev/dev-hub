@@ -4,10 +4,10 @@ import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Divider from "@mui/material/Divider";
-import { useTheme, useMediaQuery } from "@mui/material";
-import { SidebarProvider } from "./SidebarContext";
+import { useTheme } from "@mui/material";
 import { menuOptions } from "@dev-hub/shared/config/menuOptions";
 import { SidebarSection } from "./SidebarSection";
+import { useSidebar } from "./SidebarContext";
 
 /**
  * Sidebar component that displays navigation menu options
@@ -23,60 +23,52 @@ import { SidebarSection } from "./SidebarSection";
  */
 const Sidebar = ({
   isOpen,
-  onClose,
   drawerWidth,
 }: {
   isOpen: boolean;
-  onClose: () => void;
   drawerWidth: number;
 }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const { isMobile, onClose } = useSidebar();
 
   return (
-    <SidebarProvider
-      isOpen={isOpen}
-      onClose={onClose}
-      drawerWidth={drawerWidth}
+    <Box
+      sx={{
+        gridArea: "sidebar", // Positions the sidebar in the grid layout
+        position: "sticky",
+        top: 0,
+        height: "100vh", // Full viewport height
+        width: drawerWidth,
+      }}
     >
-      <Box
+      <Drawer
+        variant={isMobile ? "temporary" : "persistent"} // Drawer remains visible when open
+        open={isOpen}
+        onClose={onClose}
+        ModalProps={{ keepMounted: true }} // Improves performance by keeping the DOM elements mounted
         sx={{
-          gridArea: "sidebar", // Positions the sidebar in the grid layout
-          position: "sticky",
-          top: 0,
-          height: "100vh", // Full viewport height
           width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            boxSizing: "border-box",
+            // Custom transition for smooth opening/closing animation
+            transition: `${theme.transitions.create(["transform"], {
+              easing: "cubic-bezier(0.25, 0.8, 0.25, 1)",
+              duration: 400,
+            })} !important`,
+          },
         }}
       >
-        <Drawer
-          variant={isMobile ? "temporary" : "persistent"} // Drawer remains visible when open
-          open={isOpen}
-          onClose={onClose}
-          ModalProps={{ keepMounted: true }} // Improves performance by keeping the DOM elements mounted
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-              // Custom transition for smooth opening/closing animation
-              transition: `${theme.transitions.create(["transform"], {
-                easing: "cubic-bezier(0.25, 0.8, 0.25, 1)",
-                duration: 400,
-              })} !important`,
-            },
-          }}
-        >
-          {/* Space for the app bar */}
-          <Toolbar />
-          <Divider />
-          {/* Render each menu section from the configuration */}
-          {menuOptions.map((section) => (
-            <SidebarSection key={section.title} section={section} />
-          ))}
-        </Drawer>
-      </Box>
-    </SidebarProvider>
+        {/* Space for the app bar */}
+        <Toolbar />
+        <Divider />
+        {/* Render each menu section from the configuration */}
+        {menuOptions.map((section) => (
+          <SidebarSection key={section.id} section={section} />
+        ))}
+      </Drawer>
+    </Box>
   );
 };
 
