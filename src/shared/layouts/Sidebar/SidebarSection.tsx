@@ -20,12 +20,16 @@ export const SidebarSection = ({ section }: { section: MenuSection }) => {
   return (
     <div>
       <Box component="div" sx={{ px: 2, py: 1 }}>
-        <Typography variant="subtitle2" fontWeight="bold">
-          {section.title}
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          {section.subtitle}
-        </Typography>
+        {section.title && (
+          <Typography variant="subtitle2" fontWeight="bold">
+            {section.title}
+          </Typography>
+        )}
+        {section.subtitle && (
+          <Typography variant="caption" color="text.secondary">
+            {section.subtitle}
+          </Typography>
+        )}
       </Box>
       <List
         sx={{ "--ListItemIcon-marginRight": "12px", padding: 0 }}
