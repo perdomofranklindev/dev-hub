@@ -1,6 +1,8 @@
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
+//? DISCLAIMER: WE RECOMMEND UNTIL 3 LEVELS OF NESTED MENU ITEMS.
+
 export const menuOptions = [
   {
     title: "Overview",
@@ -21,11 +23,18 @@ export const menuOptions = [
             id: "profile",
             text: "Profile",
             path: "/settings/profile",
+
           },
           {
             id: "account",
             text: "Account",
-            path: "/settings/account",
+            subItems: [
+              {
+                id: "account",
+                text: "Account",
+                path: "/settings/account",
+              },
+            ]
           },
         ],
       },
