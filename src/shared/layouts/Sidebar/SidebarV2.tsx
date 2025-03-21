@@ -1,13 +1,10 @@
 "use client";
 
-import {
-  Drawer,
-  Box,
-  Toolbar,
-  Divider,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import Drawer from "@mui/material/Drawer";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Divider from "@mui/material/Divider";
+import { useTheme, useMediaQuery } from "@mui/material";
 import { SidebarProvider } from "./SidebarContext";
 import { menuOptions } from "@dev-hub/shared/config/menuOptions";
 import { SidebarSection } from "./SidebarSection";
