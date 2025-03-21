@@ -36,8 +36,7 @@ export default function DashboardHeader({
             easing: "cubic-bezier(0.25, 0.8, 0.25, 1)",
             duration: 400,
           }),
-          ...(isSidebarOpen &&
-            isDesktop && {
+          ...(isSidebarOpen && {
               width: `calc(100% - ${drawerWidth}px)`,
               marginLeft: `${drawerWidth}px`,
             }),
