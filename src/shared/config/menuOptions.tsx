@@ -5,6 +5,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 export const menuOptions = [
   {
+    id: 'overview',
     title: "Overview",
     subtitle: "Apps and Widgets",
     items: [
@@ -23,7 +24,6 @@ export const menuOptions = [
             id: "profile",
             text: "Profile",
             path: "/settings/profile",
-
           },
           {
             id: "account",
@@ -34,9 +34,36 @@ export const menuOptions = [
                 text: "Account",
                 path: "/settings/account",
               },
-            ]
+            ],
           },
         ],
+      },
+    ],
+  },
+
+  {
+    id: 'pages',
+    items: [
+      {
+        id: "sign-in",
+        text: "Sign In",
+        subItems: [
+          {
+            id: "regular",
+            text: "Regular",
+            path: "/regular",
+          },
+        ],
+      },
+      {
+        id: "sign-up",
+        text: "Sign Up",
+        path: "/sign-up",
+      },
+      {
+        id: "sign-out",
+        text: "Sign Out",
+        path: "/sign-out",
       },
     ],
   },
