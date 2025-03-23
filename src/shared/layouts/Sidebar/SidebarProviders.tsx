@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import { SidebarProvider } from './SidebarContext';
 import { SubmenuProvider } from './SubmenuContext';
+import { ConfigSidebarProvider } from './ConfigSidebarContext';
 
 interface SidebarProvidersProps {
   children: ReactNode;
@@ -15,7 +16,9 @@ interface SidebarProvidersProps {
 export const SidebarProviders = ({ children }: SidebarProvidersProps) => {
   return (
     <SidebarProvider>
-      <SubmenuProvider>{children}</SubmenuProvider>
+      <ConfigSidebarProvider>
+        <SubmenuProvider>{children}</SubmenuProvider>
+      </ConfigSidebarProvider>
     </SidebarProvider>
   );
 };
@@ -23,3 +26,4 @@ export const SidebarProviders = ({ children }: SidebarProvidersProps) => {
 // Export all hooks for convenience
 export { useSidebar } from './SidebarContext';
 export { useSubmenu } from './SubmenuContext';
+export { useConfigSidebar } from './ConfigSidebarContext';
