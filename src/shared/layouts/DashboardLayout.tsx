@@ -3,6 +3,7 @@
 import Box from '@mui/material/Box';
 import DashboardSidebar from './DashboardSidebar';
 import DashboardMain from './DashboardMain';
+import DashboardConfigSidebar from './DashboardConfigSidebar';
 import { useSidebar } from './Sidebar/SidebarContext';
 import { useTheme } from '@mui/material';
 
@@ -27,9 +28,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         gridTemplateColumns: gridTemplateColumnsHandle(),
         gridTemplateRows: '1fr',
         gridTemplateAreas: `
-          "sidebar main"`,
+          "sidebar main config-sidebar"`,
         minHeight: '100vh',
-
         ...(enteringOnDesktopMode && {
           transition: theme.transitions.create('grid-template-columns', {
             easing: theme.transitions.easing.sharp,
@@ -40,6 +40,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     >
       <DashboardSidebar />
       <DashboardMain>{children}</DashboardMain>
+      <DashboardConfigSidebar />
     </Box>
   );
 }
