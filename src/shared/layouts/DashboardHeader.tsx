@@ -1,42 +1,32 @@
-// components/dashboard/Header.tsx
 "use client";
 
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  useTheme,
-  Box,
-  useMediaQuery,
-} from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useSidebar } from "./Sidebar/SidebarContext";
+import { useTheme } from "@mui/material";
 
-interface HeaderProps {
-  isSidebarOpen: boolean;
-  onToggleSidebar: () => void;
-  drawerWidth: number;
-}
-
-export default function DashboardHeader({
-  isSidebarOpen,
-  onToggleSidebar,
-  drawerWidth,
-}: HeaderProps) {
+export default function DashboardHeader() {
   const theme = useTheme();
 
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+  const { isDesktop, isSidebarOpen, drawerWidth, handleToggleSidebar } =
+    useSidebar();
 
   return (
-    <Box sx={{ gridArea: "header" }}>
+    <Box sx={{ gridArea: "header", position: "relative" }}>
       <AppBar
         position="fixed"
         sx={{
+          zIndex: (theme) => theme.zIndex.drawer - 2, // Ensure header is above drawer
           transition: theme.transitions.create(["margin", "width"], {
-            easing: "cubic-bezier(0.25, 0.8, 0.25, 1)",
-            duration: 400,
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.standard,
           }),
-          ...(isSidebarOpen && {
+          ...(isSidebarOpen &&
+            isDesktop && {
               width: `calc(100% - ${drawerWidth}px)`,
               marginLeft: `${drawerWidth}px`,
             }),
@@ -46,7 +36,7 @@ export default function DashboardHeader({
           <IconButton
             color="inherit"
             edge="start"
-            onClick={onToggleSidebar}
+            onClick={handleToggleSidebar}
             sx={{ mr: 2 }}
           >
             <MenuIcon />
