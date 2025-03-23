@@ -3,7 +3,32 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { devHubTheme } from './theme';
+import { Roboto, Inter, Poppins, Montserrat } from 'next/font/google';
 import CssBaseline from '@mui/material/CssBaseline';
+
+const poppins = Poppins({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const roboto = Roboto({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const inter = Inter({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const montserrat = Montserrat({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 interface ThemeContextType {
   themeColor: string;
@@ -19,11 +44,24 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const DevHubThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [themeColor, setThemeColor] = useState('#3F51B5');
   const [fontSize, setFontSize] = useState(14);
-  const [fontFamily, setFontFamily] = useState('Inter');
+  const [fontFamily, setFontFamily] = useState('Roboto');
+
+  const handleFontFamilyChange = (font: string) => {
+    if (font === 'Inter') {
+      return inter;
+    } else if (font === 'Poppins') {
+      return poppins;
+    } else if (font === 'Montserrat') {
+      return montserrat;
+    }
+
+    return roboto;
+  };
 
   // Create a modified theme based on user preferences
   const theme = useMemo(() => {
     const baseTheme = devHubTheme;
+    const fontFamilyStyle = handleFontFamilyChange(fontFamily);
 
     // Create a new theme with the user's preferences
     return createTheme({
@@ -32,7 +70,7 @@ export const DevHubThemeProvider = ({ children }: { children: React.ReactNode })
         ...baseTheme.palette,
       },
       typography: {
-        fontFamily: fontFamily,
+        fontFamily: fontFamilyStyle.style.fontFamily,
         fontSize: fontSize,
       },
     });
