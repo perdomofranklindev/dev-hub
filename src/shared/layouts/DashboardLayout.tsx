@@ -1,9 +1,8 @@
 "use client";
 
-import DashboardHeader from "./DashboardHeader";
-import DashboardFooter from "./DashboardFooter";
-import Sidebar from "./Sidebar/SidebarV2";
 import Box from "@mui/material/Box";
+import DashboardSidebar from "./DashboardSidebar";
+import DashboardMain from "./DashboardMain";
 import { useSidebar } from "./Sidebar/SidebarContext";
 import { useTheme } from "@mui/material";
 
@@ -35,39 +34,18 @@ export default function DashboardLayout({
         gridTemplateAreas: `
           "sidebar main"`,
         minHeight: "100vh",
+
         ...(enteringOnDesktopMode && {
           transition: theme.transitions.create("grid-template-columns", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.standard,
           }),
         }),
+
       }}
     >
-      <Sidebar />
-      <Box
-        component="main"
-        sx={{
-          gridArea: "main",
-          display: "grid",
-          gridTemplateColumns: "1fr",
-          gridTemplateRows: "auto 1fr auto",
-          gridTemplateAreas: `
-          "header"
-          "body"
-          "footer"
-          `,
-        }}
-      >
-        <DashboardHeader />
-        <Box
-          sx={{
-            gridArea: "body",
-          }}
-        >
-          {children}
-        </Box>
-        <DashboardFooter />
-      </Box>
+      <DashboardSidebar />
+      <DashboardMain>{children}</DashboardMain>
     </Box>
   );
 }
