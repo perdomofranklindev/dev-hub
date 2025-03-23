@@ -4,13 +4,14 @@ import { useConfigSidebar } from './Sidebar/ConfigSidebarContext';
 import { Sidebar } from './Sidebar';
 import { useState } from 'react';
 import DarkModeSelection from './ConfigSidebar/DarkModeSelection';
+import { useThemeConfiguration } from '../theme/DevHubThemeProvider';
 
 const DashboardConfigSidebar = () => {
   const { isConfigSidebarOpen, toggleConfigSidebar } = useConfigSidebar();
+  const { fontSize, setFontSize } = useThemeConfiguration();
 
   // Demo state - you should integrate with your actual state management
   const [selectedColor, setSelectedColor] = useState('#2196f3');
-  const [fontSize, setFontSize] = useState(16);
   const [selectedFont, setSelectedFont] = useState('Inter');
 
   const colorThemes = [
@@ -95,7 +96,9 @@ const DashboardConfigSidebar = () => {
             <Box sx={{ ml: 4, pr: 2 }}>
               <Slider
                 value={fontSize}
-                onChange={(e, newValue) => setFontSize(newValue)}
+                onChange={(e, newValue) => {
+                  setFontSize(newValue as number);
+                }}
                 min={12}
                 max={24}
                 step={2}
