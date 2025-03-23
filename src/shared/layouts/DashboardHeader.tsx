@@ -12,8 +12,15 @@ import { useTheme } from "@mui/material";
 export default function DashboardHeader() {
   const theme = useTheme();
 
-  const { isDesktop, isSidebarOpen, drawerWidth, handleToggleSidebar } =
-    useSidebar();
+  const {
+    isDesktop,
+    isSidebarOpen,
+    drawerWidth,
+    handleToggleSidebar,
+    enteringOnMobileMode,
+  } = useSidebar();
+
+  const enteringOnDesktopMode = !enteringOnMobileMode;
 
   return (
     <Box sx={{ gridArea: "header", position: "relative" }}>
@@ -21,9 +28,11 @@ export default function DashboardHeader() {
         position="fixed"
         sx={{
           zIndex: (theme) => theme.zIndex.drawer - 2, // Ensure header is above drawer
-          transition: theme.transitions.create(["margin", "width"], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.standard,
+          ...(enteringOnDesktopMode && {
+            transition: theme.transitions.create("width", {
+              easing: theme.transitions.easing.sharp,
+              duration: theme.transitions.duration.standard,
+            }),
           }),
           ...(isSidebarOpen &&
             isDesktop && {

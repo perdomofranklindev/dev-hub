@@ -41,7 +41,6 @@ export default function DashboardLayout({
             duration: theme.transitions.duration.standard,
           }),
         }),
-
       }}
     >
       <DashboardSidebar />
