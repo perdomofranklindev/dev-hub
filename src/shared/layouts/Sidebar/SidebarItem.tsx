@@ -11,7 +11,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { usePathname } from "next/navigation";
 import { StyledListItemIcon } from "./SidebarStyles";
 import { MenuItem } from "./types";
-import { useSidebar } from "./SidebarContext";
 import { useSubmenu } from "./SubmenuContext";
 
 /**
@@ -30,7 +29,6 @@ export const SidebarItem = ({
   depth?: number;
 }) => {
   // Access sidebar context for mobile detection and sidebar control
-  const { isMobile, onClose: closeSidebar } = useSidebar();
   const { openSubmenus, toggleSubmenu } = useSubmenu();
 
   // Get current path to determine active state
@@ -53,7 +51,6 @@ export const SidebarItem = ({
    * - For items with sub-menus, toggle expansion
    */
   const handleClick = () => {
-    if (isMobile) closeSidebar();
     if (hasSubItems) {
       toggleSubmenu(item.id);
     }
