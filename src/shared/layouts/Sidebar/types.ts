@@ -6,7 +6,7 @@ export interface MenuItem {
   subItems?: SubMenuItem[];
 }
 
-export interface SubMenuItem extends Omit<MenuItem, "subItems"> {
+export interface SubMenuItem extends Omit<MenuItem, 'subItems'> {
   parentId?: string;
 }
 

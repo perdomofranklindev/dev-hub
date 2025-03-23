@@ -1,15 +1,9 @@
-"use client";
+'use client';
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
-import { usePathname } from "next/navigation";
-import { menuOptions } from "@dev-hub/shared/config/menuOptions";
-import { MenuItem } from "./types";
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
+import { menuOptions } from '@dev-hub/shared/config/menuOptions';
+import { MenuItem } from './types';
 
 /**
  * Interface defining the shape of the Submenu context
@@ -31,7 +25,7 @@ const SubmenuContext = createContext<SubmenuContextType | undefined>(undefined);
 export const useSubmenu = () => {
   const context = useContext(SubmenuContext);
   if (!context) {
-    throw new Error("useSubmenu must be used within a SubmenuProvider");
+    throw new Error('useSubmenu must be used within a SubmenuProvider');
   }
   return context;
 };
@@ -39,11 +33,7 @@ export const useSubmenu = () => {
 /**
  * SubmenuProvider component that manages submenu expansion state
  */
-export const SubmenuProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const SubmenuProvider = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   // State to track which submenus are currently expanded
   const [openSubmenus, setOpenSubmenus] = useState<Set<string>>(new Set());
@@ -52,7 +42,7 @@ export const SubmenuProvider = ({
    * Toggles a submenu open or closed based on its ID
    */
   const toggleSubmenu = (id: string) => {
-    setOpenSubmenus((prev) => {
+    setOpenSubmenus(prev => {
       const next = new Set(prev);
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
@@ -63,7 +53,7 @@ export const SubmenuProvider = ({
     const parentIds: string[] = [];
 
     const traverse = (items: MenuItem[], parentId?: string): boolean => {
-      return items.some((item) => {
+      return items.some(item => {
         // Check if this is the active item
         if (item.path === path) {
           return true;
@@ -81,7 +71,7 @@ export const SubmenuProvider = ({
       });
     };
 
-    menuOptions.forEach((section) => {
+    menuOptions.forEach(section => {
       traverse(section.items);
     });
 

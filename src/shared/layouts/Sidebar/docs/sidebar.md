@@ -46,7 +46,7 @@ The sidebar is implemented through several components:
 When implementing the sidebar in a layout:
 
 ```tsx
-<Sidebar 
+<Sidebar
   isOpen={sidebarOpen}
   onClose={handleCloseSidebar}
   drawerWidth={240}

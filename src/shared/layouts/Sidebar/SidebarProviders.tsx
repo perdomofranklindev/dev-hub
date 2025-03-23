@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { ReactNode } from "react";
-import { SidebarProvider } from "./SidebarContext";
-import { SubmenuProvider } from "./SubmenuContext";
+import { ReactNode } from 'react';
+import { SidebarProvider } from './SidebarContext';
+import { SubmenuProvider } from './SubmenuContext';
 
 interface SidebarProvidersProps {
   children: ReactNode;
@@ -21,5 +21,5 @@ export const SidebarProviders = ({ children }: SidebarProvidersProps) => {
 };
 
 // Export all hooks for convenience
-export { useSidebar } from "./SidebarContext";
-export { useSubmenu } from "./SubmenuContext";
+export { useSidebar } from './SidebarContext';
+export { useSubmenu } from './SubmenuContext';

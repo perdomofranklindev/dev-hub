@@ -1,25 +1,18 @@
-
-import Box from '@mui/material/Box'; 
-import Divider from '@mui/material/Divider'; 
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import Toolbar from '@mui/material/Toolbar';
-import { useSidebar } from "./Sidebar/SidebarContext";
-import { SidebarSection } from "./Sidebar/SidebarSection";
-import { menuOptions } from "../config/menuOptions";
-import { Sidebar } from "./Sidebar";
+import { useSidebar } from './Sidebar/SidebarContext';
+import { SidebarSection } from './Sidebar/SidebarSection';
+import { menuOptions } from '../config/menuOptions';
+import { Sidebar } from './Sidebar';
 
 const DashboardSidebar = () => {
-  const {
-    drawerWidth,
-    isSidebarOpen,
-    isMobile,
-    onClose,
-    enteringOnMobileMode,
-  } = useSidebar();
+  const { drawerWidth, isSidebarOpen, isMobile, onClose, enteringOnMobileMode } = useSidebar();
 
   return (
     <Box
       sx={{
-        gridArea: "sidebar",
+        gridArea: 'sidebar',
       }}
     >
       <Sidebar
@@ -32,7 +25,7 @@ const DashboardSidebar = () => {
       >
         <Toolbar />
         <Divider />
-        {menuOptions.map((section) => (
+        {menuOptions.map(section => (
           <SidebarSection key={section.id} section={section} />
         ))}
       </Sidebar>

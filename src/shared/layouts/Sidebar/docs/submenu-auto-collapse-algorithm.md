@@ -9,6 +9,7 @@ Our application features an intelligent submenu auto-collapse system that ensure
 ### The Problem
 
 When navigating through a multi-level menu structure:
+
 - We want to automatically expand parent menus that lead to the current page
 - We want to collapse all other menus that aren't relevant to the current page
 - This creates a clean, focused navigation experience
@@ -32,10 +33,10 @@ const findParentIds = (path: string): string[] => {
   const parentIds: string[] = [];
 
   const traverse = (items: MenuItem[]): boolean => {
-    return items.some((item) => {
+    return items.some(item => {
       // If this is the current page, we found a match
       if (item.path === path) return true;
-      
+
       // If this item has children, check them recursively
       if (item.subItems) {
         const found = traverse(item.subItems);
@@ -50,12 +51,12 @@ const findParentIds = (path: string): string[] => {
   };
 
   // Start traversal from top-level menu items
-  menuOptions.forEach((section) => {
+  menuOptions.forEach(section => {
     traverse(section.items);
   });
 
   return parentIds.reverse();
-}
+};
 ```
 
 #### 2. Auto-Expanding Submenus
@@ -64,7 +65,7 @@ const findParentIds = (path: string): string[] => {
 const autoExpandSubmenus = (currentPath: string) => {
   // Get all parent menu IDs for the current path
   const parentIds = findParentIds(currentPath);
-  
+
   // Replace the current set of open menus with ONLY these parent IDs
   setOpenSubmenus(new Set(parentIds));
 };
@@ -98,6 +99,7 @@ Users
 ```
 
 If a user navigates to "Stock Levels":
+
 - The algorithm identifies "Products" and "Inventory" as parent menus
 - It expands only these menus
 - "Categories" and "Users" sections remain collapsed

@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material";
-import { Backdrop } from "./SidebarStyles";
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material';
+import { Backdrop } from './SidebarStyles';
+import { useAnimationSync } from '../../hooks/useAnimationSync';
 
 export const Sidebar: React.FC<{
   children: React.ReactNode;
@@ -11,7 +12,7 @@ export const Sidebar: React.FC<{
   overlap?: boolean;
   onClose?: () => void;
   backdropEnabled?: boolean;
-  direction?: "right" | "left";
+  direction?: 'right' | 'left';
 }> = ({
   children,
   isOpen = false,
@@ -19,16 +20,17 @@ export const Sidebar: React.FC<{
   overlap = false,
   onClose,
   backdropEnabled = false,
-  direction = "left",
+  direction = 'left',
 }) => {
   const theme = useTheme();
+  const { sidebarTransition } = useAnimationSync();
 
   // Determine transform based on direction
   const getTransform = () => {
     if (!isOpen) {
-      return direction === "left" ? "translateX(-100%)" : "translateX(100%)";
+      return direction === 'left' ? 'translateX(-100%)' : 'translateX(100%)';
     }
-    return "translateX(0)";
+    return 'translateX(0)';
   };
 
   return (
@@ -37,27 +39,18 @@ export const Sidebar: React.FC<{
         component="nav"
         sx={{
           backgroundColor: theme.palette.background.paper,
-          borderRight:
-            direction === "left"
-              ? `1px solid ${theme.palette.divider}`
-              : "none",
-          borderLeft:
-            direction === "right"
-              ? `1px solid ${theme.palette.divider}`
-              : "none",
-          zIndex: (theme) => (overlap ? theme.zIndex.drawer : "inherit"),
-          position: overlap ? "fixed" : "relative",
-          height: "100%",
-          overflowY: "auto",
-          display: "flex",
-          flexDirection: "column",
+          borderRight: direction === 'left' ? `1px solid ${theme.palette.divider}` : 'none',
+          borderLeft: direction === 'right' ? `1px solid ${theme.palette.divider}` : 'none',
+          zIndex: theme => (overlap ? theme.zIndex.drawer : 'inherit'),
+          position: overlap ? 'fixed' : 'relative',
+          height: '100%',
+          overflowY: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
           width: `${width}px`,
-          transition: theme.transitions.create(["transform"], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.standard,
-          }),
+          transition: sidebarTransition,
           transform: getTransform(),
-          ...(direction === "right" && {
+          ...(direction === 'right' && {
             right: 0,
           }),
         }}

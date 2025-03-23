@@ -1,6 +1,6 @@
-import Box from "@mui/material/Box";
-import DashboardHeader from "./DashboardHeader";
-import DashboardFooter from "./DashboardFooter";
+import Box from '@mui/material/Box';
+import DashboardHeader from './DashboardHeader';
+import DashboardFooter from './DashboardFooter';
 
 const DashboardMain: React.FC<{
   children: React.ReactNode;
@@ -8,10 +8,10 @@ const DashboardMain: React.FC<{
   <Box
     component="main"
     sx={{
-      gridArea: "main",
-      display: "grid",
-      gridTemplateColumns: "1fr",
-      gridTemplateRows: "auto 1fr auto",
+      gridArea: 'main',
+      display: 'grid',
+      gridTemplateColumns: '1fr',
+      gridTemplateRows: 'auto 1fr auto',
       gridTemplateAreas: `
           "header"
           "body"
@@ -22,7 +22,7 @@ const DashboardMain: React.FC<{
     <DashboardHeader />
     <Box
       sx={{
-        gridArea: "body",
+        gridArea: 'body',
       }}
     >
       {children}

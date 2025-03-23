@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { createContext, useContext, useState, useEffect } from "react";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { createContext, useContext, useState, useEffect } from 'react';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 /**
  * Interface defining the shape of the Sidebar context
@@ -28,7 +28,7 @@ const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 export const useSidebar = () => {
   const context = useContext(SidebarContext);
   if (!context) {
-    throw new Error("useSidebar must be used within a SidebarProvider");
+    throw new Error('useSidebar must be used within a SidebarProvider');
   }
   return context;
 };
@@ -36,16 +36,12 @@ export const useSidebar = () => {
 /**
  * SidebarProvider component that manages sidebar visibility state
  */
-export const SidebarProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const SidebarProvider = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
 
   // Responsive breakpoints
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
   // Sidebar state
   const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);

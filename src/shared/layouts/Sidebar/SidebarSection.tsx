@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Typography";
-import List from "@mui/material/Typography";
-import { MenuSection } from "./types";
-import { SidebarItem } from "./SidebarItem";
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Typography';
+import List from '@mui/material/Typography';
+import { MenuSection } from './types';
+import { SidebarItem } from './SidebarItem';
 
 /**
  * SidebarSection Component
@@ -31,11 +31,8 @@ export const SidebarSection = ({ section }: { section: MenuSection }) => {
           </Typography>
         )}
       </Box>
-      <List
-        sx={{ "--ListItemIcon-marginRight": "12px", padding: 0 }}
-        component="ul"
-      >
-        {section.items.map((item) => (
+      <List sx={{ '--ListItemIcon-marginRight': '12px', padding: 0 }} component="ul">
+        {section.items.map(item => (
           <SidebarItem key={item.id} item={item} />
         ))}
       </List>
