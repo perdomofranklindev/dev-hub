@@ -1,12 +1,6 @@
-// components/dashboard/Sidebar/SidebarContext.tsx
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-} from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useMediaQuery, useTheme } from "@mui/material";
 
 /**
@@ -20,6 +14,7 @@ interface SidebarContextType {
   drawerWidth: number; // Width of the sidebar drawer
   isSidebarOpen: boolean; // Indicates if the sidebar is currently open
   onClose: () => void;
+  enteringOnMobileMode: boolean;
 }
 
 /**
@@ -47,19 +42,18 @@ export const SidebarProvider = ({
   children: React.ReactNode;
 }) => {
   const theme = useTheme();
-  
+
   // Responsive breakpoints
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   // Sidebar state
   const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
-  const drawerWidth = 280;
 
-  // Update sidebar state when screen size changes
-  useEffect(() => {
-    setIsSidebarOpen(!isMobile);
-  }, [isMobile]);
+  // State for entering on mobile mode
+  const [enteringOnMobileMode, setEnteringOnMobileMode] = useState(false);
+
+  const drawerWidth = 280;
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -68,6 +62,24 @@ export const SidebarProvider = ({
   const onClose = () => {
     setIsSidebarOpen(false);
   };
+
+  // Update sidebar state when screen size changes
+  useEffect(() => {
+    setIsSidebarOpen(!isMobile);
+  }, [isMobile]);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+
+    if (isMobile) {
+      // Wait for transition before showing backdrop
+      timeout = setTimeout(() => setEnteringOnMobileMode(true), 300);
+    } else {
+      setEnteringOnMobileMode(false);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [isMobile]);
 
   return (
     <SidebarContext.Provider
@@ -78,6 +90,7 @@ export const SidebarProvider = ({
         isSidebarOpen,
         handleToggleSidebar,
         onClose,
+        enteringOnMobileMode,
       }}
     >
       {children}
