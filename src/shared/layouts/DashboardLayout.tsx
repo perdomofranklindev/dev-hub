@@ -1,11 +1,11 @@
-// app/dashboard/layout.tsx
 "use client";
 
-import { Box, useTheme } from "@mui/material";
 import DashboardHeader from "./DashboardHeader";
 import DashboardFooter from "./DashboardFooter";
 import Sidebar from "./Sidebar/SidebarV2";
+import Box from "@mui/material/Box";
 import { useSidebar } from "./Sidebar/SidebarContext";
+import { useTheme } from "@mui/material";
 
 export default function DashboardLayout({
   children,
@@ -13,56 +13,61 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const theme = useTheme();
-  const { isDesktop, handleToggleSidebar, drawerWidth, isSidebarOpen } =
+  const { isDesktop, drawerWidth, isSidebarOpen, enteringOnMobileMode } =
     useSidebar();
+
+  const enteringOnDesktopMode = !enteringOnMobileMode;
+
+  const gridTemplateColumnsHandle = () => {
+    if (isSidebarOpen && isDesktop) {
+      return `${drawerWidth}px 1fr`;
+    } else {
+      return "0 1fr";
+    }
+  };
 
   return (
     <Box
       sx={{
         display: "grid",
-        gridTemplateColumns:
-          isSidebarOpen && isDesktop ? `${drawerWidth}px 1fr` : "0 1fr",
-        gridTemplateRows: "auto 1fr auto",
+        gridTemplateColumns: gridTemplateColumnsHandle(),
+        gridTemplateRows: "1fr",
         gridTemplateAreas: `
-        "sidebar header"
-        "sidebar main"
-        "sidebar footer"
-      `,
+          "sidebar main"`,
         minHeight: "100vh",
-        transition: theme.transitions.create("grid-template-columns", {
-          easing: "cubic-bezier(0.25, 0.8, 0.25, 1)",
-          duration: 400,
+        ...(enteringOnDesktopMode && {
+          transition: theme.transitions.create("grid-template-columns", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.standard,
+          }),
         }),
       }}
     >
-      {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} drawerWidth={drawerWidth} />
-
-      {/* Header */}
-      <DashboardHeader
-        isSidebarOpen={isSidebarOpen}
-        onToggleSidebar={handleToggleSidebar}
-        drawerWidth={drawerWidth}
-      />
-
-      {/* Main Content */}
+      <Sidebar />
       <Box
         component="main"
         sx={{
           gridArea: "main",
-          p: 3,
-          pt: 8,
-          transition: theme.transitions.create(["margin", "width"], {
-            easing: "cubic-bezier(0.25, 0.8, 0.25, 1)",
-            duration: 400,
-          }),
+          display: "grid",
+          gridTemplateColumns: "1fr",
+          gridTemplateRows: "auto 1fr auto",
+          gridTemplateAreas: `
+          "header"
+          "body"
+          "footer"
+          `,
         }}
       >
-        {children}
+        <DashboardHeader />
+        <Box
+          sx={{
+            gridArea: "body",
+          }}
+        >
+          {children}
+        </Box>
+        <DashboardFooter />
       </Box>
-
-      {/* Footer */}
-      <DashboardFooter />
     </Box>
   );
 }
