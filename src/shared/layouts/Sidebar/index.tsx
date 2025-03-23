@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material';
 import { Backdrop } from './SidebarStyles';
 import { useAnimationSync } from '../../hooks/useAnimationSync';
+import { useEffect, useRef } from 'react';
 
 export const Sidebar: React.FC<{
   children: React.ReactNode;
@@ -25,6 +26,23 @@ export const Sidebar: React.FC<{
   const theme = useTheme();
   const { sidebarTransition } = useAnimationSync();
 
+  const sidebarRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!backdropEnabled && overlap && isOpen && onClose) {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+          onClose();
+        }
+      };
+
+      document.addEventListener('click', handleClickOutside);
+      return () => {
+        document.removeEventListener('click', handleClickOutside);
+      };
+    }
+  }, [backdropEnabled, overlap, isOpen, onClose]);
+
   // Determine transform based on direction
   const getTransform = () => {
     if (!isOpen) {
@@ -36,6 +54,7 @@ export const Sidebar: React.FC<{
   return (
     <>
       <Box
+        ref={sidebarRef}
         component="nav"
         sx={{
           backgroundColor: theme.palette.background.paper,
