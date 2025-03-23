@@ -1,15 +1,14 @@
-import { Box, Typography, Slider, Button, Divider, IconButton } from '@mui/material';
-import { Palette, FormatSize, TextFields, Brightness4, CheckCircle } from '@mui/icons-material';
+import { Box, Typography, Slider, Button, Divider, IconButton, Stack } from '@mui/material';
+import { Palette, FormatSize, TextFields, CheckCircle } from '@mui/icons-material';
 import { useConfigSidebar } from './Sidebar/ConfigSidebarContext';
 import { Sidebar } from './Sidebar';
 import { useState } from 'react';
-import { IOSSwitch } from '../components/IOSSwitch';
+import DarkModeSelection from './ConfigSidebar/DarkModeSelection';
 
 const DashboardConfigSidebar = () => {
   const { isConfigSidebarOpen, toggleConfigSidebar } = useConfigSidebar();
 
   // Demo state - you should integrate with your actual state management
-  const [darkMode, setDarkMode] = useState(false);
   const [selectedColor, setSelectedColor] = useState('#2196f3');
   const [fontSize, setFontSize] = useState(16);
   const [selectedFont, setSelectedFont] = useState('Inter');
@@ -33,9 +32,14 @@ const DashboardConfigSidebar = () => {
         onClose={toggleConfigSidebar}
         width={340}
       >
-        <Box sx={{ p: 3 }}>
+        <Stack
+          sx={{ p: 3 }}
+          direction="column"
+          spacing={3}
+          divider={<Divider sx={{ mt: 1, mb: 1 }} />}
+        >
           {/* Header */}
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <TextFields sx={{ mr: 1.5, color: 'primary.main' }} />
             <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
               Settings
@@ -43,23 +47,10 @@ const DashboardConfigSidebar = () => {
           </Box>
 
           {/* Dark Mode Section */}
-          <Box sx={{ mb: 4 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-              <Brightness4 sx={{ mr: 2, fontSize: 24 }} />
-              <Typography variant="body1" sx={{ flexGrow: 1 }}>
-                Dark Mode
-              </Typography>
-              <IOSSwitch
-                checked={darkMode}
-                onChange={e => setDarkMode(e.target.checked)}
-                color="secondary"
-              />
-            </Box>
-            <Divider />
-          </Box>
+          <DarkModeSelection />
 
           {/* Color Theme Section */}
-          <Box sx={{ mb: 4 }}>
+          <Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2.5 }}>
               <Palette sx={{ mr: 2, fontSize: 24 }} />
               <Typography variant="body1">Theme Color</Typography>
@@ -93,11 +84,10 @@ const DashboardConfigSidebar = () => {
                 </IconButton>
               ))}
             </Box>
-            <Divider sx={{ mt: 3 }} />
           </Box>
 
           {/* Font Size Section */}
-          <Box sx={{ mb: 4 }}>
+          <Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2.5 }}>
               <FormatSize sx={{ mr: 2, fontSize: 24 }} />
               <Typography variant="body1">Font Size</Typography>
@@ -122,7 +112,6 @@ const DashboardConfigSidebar = () => {
                 <Typography variant="caption">A</Typography>
               </Box>
             </Box>
-            <Divider sx={{ mt: 3 }} />
           </Box>
 
           {/* Font Family Section */}
@@ -149,7 +138,7 @@ const DashboardConfigSidebar = () => {
               ))}
             </Box>
           </Box>
-        </Box>
+        </Stack>
       </Sidebar>
     </Box>
   );
