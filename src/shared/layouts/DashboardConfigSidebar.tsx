@@ -8,11 +8,10 @@ import { useThemeConfiguration } from '../theme/DevHubThemeProvider';
 
 const DashboardConfigSidebar = () => {
   const { isConfigSidebarOpen, toggleConfigSidebar } = useConfigSidebar();
-  const { fontSize, setFontSize } = useThemeConfiguration();
+  const { fontSize, setFontSize, fontFamily, setFontFamily } = useThemeConfiguration();
 
   // Demo state - you should integrate with your actual state management
   const [selectedColor, setSelectedColor] = useState('#2196f3');
-  const [selectedFont, setSelectedFont] = useState('Inter');
 
   const colorThemes = [
     '#2196f3', // Blue
@@ -21,7 +20,7 @@ const DashboardConfigSidebar = () => {
     '#e91e63', // Pink
   ];
 
-  const fontOptions = ['Inter', 'Roboto', 'Open Sans', 'Poppins'];
+  const fontOptions = ['Inter', 'Roboto', 'Montserrat', 'Poppins'];
 
   return (
     <Box sx={{ gridArea: 'config-sidebar' }}>
@@ -127,8 +126,8 @@ const DashboardConfigSidebar = () => {
               {fontOptions.map(font => (
                 <Button
                   key={font}
-                  variant={selectedFont === font ? 'contained' : 'outlined'}
-                  onClick={() => setSelectedFont(font)}
+                  variant={fontFamily === font ? 'contained' : 'outlined'}
+                  onClick={() => setFontFamily(font)}
                   sx={{
                     justifyContent: 'flex-start',
                     fontFamily: font,
