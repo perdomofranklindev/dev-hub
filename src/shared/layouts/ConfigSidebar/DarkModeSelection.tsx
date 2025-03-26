@@ -1,5 +1,8 @@
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { IOSSwitch } from '@dev-hub/shared/components/IOSSwitch';
-import { Box, Typography, useColorScheme } from '@mui/material';
+import { useColorScheme } from '@mui/material';
+
 import Brightness4 from '@mui/icons-material/Brightness4';
 
 const DarkModeSelection = () => {
