@@ -1,46 +1,48 @@
 'use client';
 
-import Box from '@mui/material/Box';
 import DashboardSidebar from './DashboardSidebar';
 import DashboardMain from './DashboardMain';
 import DashboardConfigSidebar from './DashboardConfigSidebar';
+import styled from '@mui/material/styles/styled';
 import { useSidebar } from './Sidebar/SidebarContext';
-import { useTheme } from '@mui/material';
+import { motion } from 'framer-motion';
+
+const Grid = styled(motion.div)(() => ({
+  display: 'grid',
+  gridTemplateRows: '1fr',
+  gridTemplateAreas: `"sidebar main config-sidebar"`,
+  minHeight: '100vh',
+}));
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const theme = useTheme();
-  const { isDesktop, drawerWidth, isSidebarOpen, enteringOnMobileMode } = useSidebar();
-
-  const enteringOnDesktopMode = !enteringOnMobileMode;
-
-  const gridTemplateColumnsHandle = () => {
-    if (isSidebarOpen && isDesktop) {
-      return `${drawerWidth}px 1fr`;
-    } else {
-      return '0 1fr';
-    }
-  };
+  const { isMobile, isDesktop, drawerWidth, isSidebarOpen } = useSidebar();
 
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: gridTemplateColumnsHandle(),
-        gridTemplateRows: '1fr',
-        gridTemplateAreas: `
-          "sidebar main config-sidebar"`,
-        minHeight: '100vh',
-        ...(enteringOnDesktopMode && {
-          transition: theme.transitions.create('grid-template-columns', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.standard,
-          }),
-        }),
+    <Grid
+      initial={isMobile ? 'closed' : 'open'}
+      animate={isDesktop && isSidebarOpen ? 'open' : 'closed'}
+      variants={{
+        open: {
+          gridTemplateColumns: `${drawerWidth}px 1fr auto`,
+          transition: {
+            type: 'spring',
+            stiffness: 400,
+            damping: 40,
+          },
+        },
+        closed: {
+          gridTemplateColumns: '0px 1fr auto',
+          transition: {
+            type: 'spring',
+            stiffness: 400,
+            damping: 40,
+          },
+        },
       }}
     >
       <DashboardSidebar />
       <DashboardMain>{children}</DashboardMain>
       <DashboardConfigSidebar />
-    </Box>
+    </Grid>
   );
 }
