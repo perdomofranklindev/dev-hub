@@ -1,45 +1,18 @@
 import styled from '@mui/material/styles/styled';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Box, { BoxProps } from '@mui/material/Box';
-import { useAnimationSync } from '../../hooks/useAnimationSync';
+import { BoxProps } from '@mui/material/Box';
+import { motion } from 'framer-motion';
 
-// For the styled components that need the hook, we need to create a factory function
-export const createBackdrop = () => {
-  const { backdropTransition } = useAnimationSync();
-
-  return styled(Box, {
-    shouldForwardProp: prop => prop !== 'isOpen',
-  })<BoxProps & { isOpen: boolean }>(({ theme, isOpen }) => ({
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    opacity: isOpen ? 1 : 0,
-    visibility: isOpen ? 'visible' : 'hidden',
-    transition: backdropTransition,
-    zIndex: theme.zIndex.drawer - 1,
-  }));
-};
-
-// Keep the original Backdrop for backward compatibility
-export const Backdrop = styled(Box, {
+export const DevHubBackdrop = styled(motion.div, {
   shouldForwardProp: prop => prop !== 'isOpen',
-})<BoxProps & { isOpen: boolean }>(({ theme, isOpen }) => ({
+})<BoxProps & { isOpen: boolean }>(({ theme }) => ({
   position: 'fixed',
   top: 0,
   left: 0,
   right: 0,
   bottom: 0,
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  opacity: isOpen ? 1 : 0,
-  visibility: isOpen ? 'visible' : 'hidden',
-  transition: theme.transitions.create(['opacity', 'visibility', 'background-color'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.standard,
-  }),
   zIndex: theme.zIndex.drawer - 1,
 }));
 

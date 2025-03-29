@@ -2,21 +2,10 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Box, { BoxProps } from '@mui/material/Box';
-import { styled, useTheme } from '@mui/material';
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material';
 import useSidebarControls from './useSidebarControls';
-
-const Backdrop = styled(motion.div, {
-  shouldForwardProp: prop => prop !== 'isOpen',
-})<BoxProps & { isOpen: boolean }>(({ theme }) => ({
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  zIndex: theme.zIndex.drawer - 1,
-}));
+import { DevHubBackdrop } from './SidebarStyles';
 
 interface SidebarDrawerProps {
   children: React.ReactNode;
@@ -53,7 +42,7 @@ export const SidebarDrawer: React.FC<SidebarDrawerProps> = ({
     <>
       <AnimatePresence>
         {isOpen && backdropEnabled && (
-          <Backdrop
+          <DevHubBackdrop
             isOpen={isOpen}
             onClick={onClose}
             as={motion.div}
