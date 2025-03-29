@@ -18,24 +18,26 @@ import { SidebarItem } from './SidebarItem';
  */
 export const SidebarSection = ({ section }: { section: MenuSection }) => {
   return (
-    <div>
-      <Box component="div" sx={{ px: 2, py: 1 }}>
-        {section.title && (
-          <Typography variant="subtitle2" fontWeight="bold">
-            {section.title}
-          </Typography>
-        )}
-        {section.subtitle && (
-          <Typography variant="caption" color="text.secondary">
-            {section.subtitle}
-          </Typography>
-        )}
-      </Box>
+    <>
+      {(section.title || section.subtitle) && (
+        <Box component="div" sx={{ px: 2, py: 1, mb: 0.5 }}>
+          {section.title && (
+            <Typography variant="subtitle2" fontWeight="bold">
+              {section.title}
+            </Typography>
+          )}
+          {section.subtitle && (
+            <Typography variant="caption" color="text.secondary">
+              {section.subtitle}
+            </Typography>
+          )}
+        </Box>
+      )}
       <List sx={{ '--ListItemIcon-marginRight': '12px', padding: 0 }} component="ul">
         {section.items.map(item => (
           <SidebarItem key={item.id} item={item} />
         ))}
       </List>
-    </div>
+    </>
   );
 };
