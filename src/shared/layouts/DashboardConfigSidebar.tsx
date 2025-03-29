@@ -1,10 +1,10 @@
 import { Box, Typography, Slider, Button, Divider, IconButton, Stack } from '@mui/material';
 import { Palette, FormatSize, TextFields, CheckCircle } from '@mui/icons-material';
 import { useConfigSidebar } from './Sidebar/ConfigSidebarContext';
-import { Sidebar } from './Sidebar';
 import { useState } from 'react';
 import DarkModeSelection from './ConfigSidebar/DarkModeSelection';
 import { useThemeConfiguration } from '../theme/DevHubThemeProvider';
+import { SidebarDrawer } from './Sidebar/SidebarDrawer';
 
 const DashboardConfigSidebar = () => {
   const { isConfigSidebarOpen, toggleConfigSidebar } = useConfigSidebar();
@@ -24,7 +24,7 @@ const DashboardConfigSidebar = () => {
 
   return (
     <Box sx={{ gridArea: 'config-sidebar' }}>
-      <Sidebar
+      <SidebarDrawer
         direction="right"
         overlap
         backdropEnabled
@@ -141,7 +141,7 @@ const DashboardConfigSidebar = () => {
             </Box>
           </Box>
         </Stack>
-      </Sidebar>
+      </SidebarDrawer>
     </Box>
   );
 };
