@@ -4,31 +4,30 @@ import Toolbar from '@mui/material/Toolbar';
 import { useSidebar } from './Sidebar/SidebarContext';
 import { SidebarSection } from './Sidebar/SidebarSection';
 import { menuOptions } from '../config/menuOptions';
-import { Sidebar } from './Sidebar';
+import { SidebarDrawer } from './Sidebar/SidebarDrawer';
 
 const DashboardSidebar = () => {
   const { drawerWidth, isSidebarOpen, isMobile, onClose, enteringOnMobileMode } = useSidebar();
 
   return (
-    <Box
-      sx={{
-        gridArea: 'sidebar',
-      }}
-    >
-      <Sidebar
+    <Box gridArea="sidebar">
+      <SidebarDrawer
+        direction="left"
         width={drawerWidth}
         overlap={isMobile}
+        swipeable={isMobile}
         isOpen={isSidebarOpen}
-        onClose={onClose}
         backdropEnabled={enteringOnMobileMode}
-        direction="left"
+        onClose={onClose}
       >
         <Toolbar />
         <Divider />
-        {menuOptions.map(section => (
-          <SidebarSection key={section.id} section={section} />
-        ))}
-      </Sidebar>
+        <Box px={1.5}>
+          {menuOptions.map(section => (
+            <SidebarSection key={section.id} section={section} />
+          ))}
+        </Box>
+      </SidebarDrawer>
     </Box>
   );
 };
