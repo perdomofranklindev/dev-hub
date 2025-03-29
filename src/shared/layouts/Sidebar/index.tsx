@@ -6,7 +6,7 @@ import { Backdrop } from './SidebarStyles';
 import { useAnimationSync } from '../../hooks/useAnimationSync';
 import { useEffect, useRef } from 'react';
 
-export const Sidebar: React.FC<{
+interface SidebarProps {
   children: React.ReactNode;
   isOpen?: boolean;
   width?: number;
@@ -14,7 +14,9 @@ export const Sidebar: React.FC<{
   onClose?: () => void;
   backdropEnabled?: boolean;
   direction?: 'right' | 'left';
-}> = ({
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({
   children,
   isOpen = false,
   width = 280,
@@ -28,6 +30,7 @@ export const Sidebar: React.FC<{
 
   const sidebarRef = useRef<HTMLElement>(null);
 
+  // This effect is used to close the sidebar when the backdrop is clicked
   useEffect(() => {
     if (!backdropEnabled && overlap && isOpen && onClose) {
       const handleClickOutside = (event: MouseEvent) => {
