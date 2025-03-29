@@ -1,24 +1,23 @@
-import { Box, useTheme } from '@mui/material';
+import styled from '@mui/material/styles/styled';
+import { motion } from 'framer-motion';
+
+const Footer = styled(motion.footer)(({ theme }) => ({
+  padding: theme.spacing(2),
+  gridArea: 'footer',
+  bgcolor: 'background.paper',
+  borderTop: `1px solid ${theme.palette.divider}`,
+}));
 
 export default function DashboardFooter() {
-  const theme = useTheme();
-
   return (
-    <Box
-      component="footer"
-      sx={{
-        gridArea: 'footer',
-        p: 2,
-        bgcolor: 'background.paper',
-        borderTop: `1px solid ${theme.palette.divider}`,
-        transition: theme.transitions.create(['margin', 'width'], {
-          easing: 'cubic-bezier(0.25, 0.8, 0.25, 1)',
-          duration: 400,
-        }),
+    <Footer
+      transition={{
+        type: 'spring',
+        stiffness: 400,
+        damping: 40,
       }}
     >
-      {/* Footer content */}
       This is a footer...
-    </Box>
+    </Footer>
   );
 }
