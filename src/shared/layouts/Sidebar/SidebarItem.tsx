@@ -49,10 +49,17 @@ export const SidebarItem = ({ item, depth = 0 }: { item: MenuItem; depth?: numbe
     }
   };
 
+  const calculatePaddingLeftDepth = () => {
+    if (depth === 0) return 2 + depth * 2;
+
+    return 6 + depth * 2;
+  };
+
   return (
     <ListItem
       disablePadding
       sx={{
+        mb: 0.5,
         flexDirection: 'column',
         alignItems: 'flex-start',
         width: '100%',
@@ -64,7 +71,8 @@ export const SidebarItem = ({ item, depth = 0 }: { item: MenuItem; depth?: numbe
         onClick={handleClick}
         selected={isActive}
         sx={{
-          pl: 2 + depth * 2,
+          borderRadius: 1,
+          pl: calculatePaddingLeftDepth(),
           width: '100%',
           '&.Mui-selected': {
             backgroundColor: theme => (!hasSubItems ? theme.palette.action.selected : 'inherit'),
