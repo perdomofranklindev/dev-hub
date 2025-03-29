@@ -42,7 +42,7 @@ const useSidebarControls = ({
     dragStartX.current = isOpen ? 0 : direction === 'left' ? -width : width;
   };
 
-  const handleDrag = (_: any, info: PanInfo) => {
+  const handleDrag = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     if (!swipeable || !isOpen) return;
     // Calculate current position with boundary constraints
     const currentX = dragStartX.current + info.offset.x;
@@ -57,7 +57,7 @@ const useSidebarControls = ({
     }
   };
 
-  const handleDragEnd = (_: any, info: PanInfo) => {
+  const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     if (!swipeable || !isOpen) return;
     setIsDragging(false);
 

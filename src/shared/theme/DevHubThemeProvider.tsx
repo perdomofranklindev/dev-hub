@@ -135,7 +135,7 @@ export const DevHubThemeProvider = ({ children }: { children: React.ReactNode })
         fontSize: fontSize,
       },
     });
-  }, [themeColor, fontSize, fontFamily]);
+  }, [fontSize, fontFamily]);
 
   return (
     <ThemeContext.Provider

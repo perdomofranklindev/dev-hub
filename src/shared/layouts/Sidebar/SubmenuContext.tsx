@@ -52,7 +52,7 @@ export const SubmenuProvider = ({ children }: { children: React.ReactNode }) => 
   const findParentIds = (path: string): string[] => {
     const parentIds: string[] = [];
 
-    const traverse = (items: MenuItem[], parentId?: string): boolean => {
+    const traverse = (items: MenuItem[]): boolean => {
       return items.some(item => {
         // Check if this is the active item
         if (item.path === path) {
@@ -61,7 +61,7 @@ export const SubmenuProvider = ({ children }: { children: React.ReactNode }) => 
 
         // Check if any children match
         if (item.subItems && item.subItems.length > 0) {
-          const found = traverse(item.subItems, item.id);
+          const found = traverse(item.subItems);
           if (found) {
             parentIds.push(item.id);
             return true;
