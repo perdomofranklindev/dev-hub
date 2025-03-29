@@ -40,8 +40,8 @@ export const SidebarProvider = ({ children }: { children: React.ReactNode }) => 
   const theme = useTheme();
 
   // Responsive breakpoints
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'), { noSsr: true });
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true });
 
   // Sidebar state
   const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
