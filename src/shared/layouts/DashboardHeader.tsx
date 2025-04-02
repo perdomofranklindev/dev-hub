@@ -7,52 +7,58 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import MenuIcon from '@mui/icons-material/Menu';
 import SettingsIcon from '@mui/icons-material/Settings';
+import styled from '@mui/material/styles/styled';
 import { useSidebar } from './Sidebar/SidebarContext';
-import { Icon, useTheme } from '@mui/material';
 import { useConfigSidebar } from './Sidebar/ConfigSidebarContext';
 
+const Header = styled(Box)(() => ({
+  gridArea: 'header',
+  width: '100%',
+  height: 'auto',
+  position: 'sticky',
+  overflow: 'hidden',
+  top: 0,
+  zIndex: 1,
+}));
+
 export default function DashboardHeader() {
-  const theme = useTheme();
-
-  const { isDesktop, isSidebarOpen, drawerWidth, handleToggleSidebar, enteringOnMobileMode } =
-    useSidebar();
-
+  const { handleToggleSidebar } = useSidebar();
   const { toggleConfigSidebar } = useConfigSidebar();
 
-  const enteringOnDesktopMode = !enteringOnMobileMode;
-
   return (
-    <Box sx={{ gridArea: 'header', position: 'relative' }}>
-      <AppBar
-        position="fixed"
-        sx={{
-          zIndex: theme => theme.zIndex.drawer - 2, // Ensure header is above drawer
-          ...(enteringOnDesktopMode && {
-            transition: theme.transitions.create('width', {
-              easing: theme.transitions.easing.sharp,
-              duration: theme.transitions.duration.standard,
-            }),
-          }),
-          ...(isSidebarOpen &&
-            isDesktop && {
-              width: `calc(100% - ${drawerWidth}px)`,
-              marginLeft: `${drawerWidth}px`,
-            }),
-        }}
-      >
-        <Toolbar>
-          <IconButton color="inherit" edge="start" onClick={handleToggleSidebar} sx={{ mr: 2 }}>
+    <Header>
+      <AppBar position="relative" elevation={0}>
+        <Toolbar
+          sx={{
+            width: '100%',
+          }}
+        >
+          <IconButton
+            id="icon-button-menu"
+            aria-label="icon-button-menu"
+            color="inherit"
+            edge="start"
+            onClick={handleToggleSidebar}
+            sx={{
+              mr: 2,
+            }}
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Dashboard
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <IconButton color="inherit" onClick={toggleConfigSidebar}>
+          <IconButton
+            id="icon-button-settings"
+            aria-label="icon-button-menu"
+            color="inherit"
+            onClick={toggleConfigSidebar}
+          >
             <SettingsIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
-    </Box>
+    </Header>
   );
 }
